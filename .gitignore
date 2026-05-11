@@ -1,0 +1,82 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+## User settings
+xcuserdata/
+
+## Compatibility with Xcode 8 and earlier (Objective-C or Swift)
+*.xcscmblueprint
+*.xccheckout
+
+## Compatibility with Xcode 3 and earlier (Objective-C)
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+!default.pbxuser
+*.ppubuild
+*.suo
+*.user
+*.userdom
+*.xcworkspacedata
+*.xcscheme
+!default.xcscheme
+*.xcuserstate
+*.xcuserschemeshare
+*.profile
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Product builds
+build/
+DerivedData/
+**/DerivedData/
+**/build/
+
+## CocoaPods
+Pods/
+*.xcworkspace
+!default.xcworkspace
+Podfile.lock
+
+## Carthage
+Carthage/Build/
+
+## Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+Package.pins
+Package.resolved
+
+## Build artifacts
+*.o
+*.a
+*.framework
+dist/
+artifacts/
+artifacts-dynamic/
+binary-artifacts/
+manual-binary/
+
+## Allow specific SDK framework (exclude other xcframeworks)
+# !libs/NewTypeSDK.xcframework
+## Exclude other xcframeworks
+# *.xcframework
+
+## Logs
+*.log
+
+## macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+## Temporary files
+*.swp
+*.swo
+*~
+*.tmp
