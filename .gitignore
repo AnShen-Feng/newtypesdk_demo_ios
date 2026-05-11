@@ -62,10 +62,11 @@ artifacts-dynamic/
 binary-artifacts/
 manual-binary/
 
-## Allow specific SDK framework (exclude other xcframeworks)
-# !libs/NewTypeSDK.xcframework
-## Exclude other xcframeworks
-# *.xcframework
+## SDK 二进制文件 - 保留 NewTypeSDK.xcframework
+## 允许 libs 目录下的 SDK 框架（必须提交到版本控制）
+!libs/NewTypeSDK.xcframework
+## 排除其他 xcframework
+*.xcframework
 
 ## Logs
 *.log
