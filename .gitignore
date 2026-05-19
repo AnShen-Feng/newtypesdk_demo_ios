@@ -22,6 +22,8 @@ xcuserdata/
 *.xcworkspacedata
 *.xcscheme
 !default.xcscheme
+# Keep shared schemes so the demo can be opened and run consistently.
+!newtypesdk_demo_ios.xcodeproj/xcshareddata/xcschemes/*.xcscheme
 *.xcuserstate
 *.xcuserschemeshare
 *.profile
@@ -40,7 +42,8 @@ DerivedData/
 Pods/
 *.xcworkspace
 !default.xcworkspace
-Podfile.lock
+# App/demo projects should commit Podfile.lock for reproducible installs.
+!Podfile.lock
 
 ## Carthage
 Carthage/Build/
@@ -62,11 +65,11 @@ artifacts-dynamic/
 binary-artifacts/
 manual-binary/
 
-## SDK 二进制文件 - 保留 NewTypeSDK.xcframework
-## 允许 libs 目录下的 SDK 框架（必须提交到版本控制）
-!libs/NewTypeSDK.xcframework
-## 排除其他 xcframework
+## SDK binary files
+## Ignore generic xcframeworks, but keep the demo SDK binary vendored in libs/.
 *.xcframework
+!libs/NewTypeSDK.xcframework/
+!libs/NewTypeSDK.xcframework/**
 
 ## Logs
 *.log

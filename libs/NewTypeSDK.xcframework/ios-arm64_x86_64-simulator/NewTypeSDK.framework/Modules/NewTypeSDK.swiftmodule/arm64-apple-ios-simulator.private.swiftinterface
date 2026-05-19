@@ -1,0 +1,1001 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.3 effective-5.10 (swiftlang-6.2.3.3.21 clang-1700.6.3.2)
+// swift-module-flags: -target arm64-apple-ios13.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name NewTypeSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.3
+import AVFoundation
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct EndpointUrl : Swift.Hashable, Swift.Sendable {
+  public let value: Swift.String
+  public static func parse(_ input: Swift.String) throws -> NewTypeSDK.EndpointUrl
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func parseOrNull(_ input: Swift.String) -> NewTypeSDK.EndpointUrl?
+  #endif
+  public enum EndpointUrlError : Swift.Error {
+    case invalidUrl
+    public static func == (a: NewTypeSDK.EndpointUrl.EndpointUrlError, b: NewTypeSDK.EndpointUrl.EndpointUrlError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func == (a: NewTypeSDK.EndpointUrl, b: NewTypeSDK.EndpointUrl) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol AuthHeaderProvider : Swift.Sendable {
+  #if compiler(>=5.3) && $NonescapableTypes
+  func getAuthorizationHeaderValue() async -> Swift.String?
+  #endif
+}
+public struct AnyAuthHeaderProvider : NewTypeSDK.AuthHeaderProvider {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(_ block: @escaping @Sendable () async -> Swift.String?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func getAuthorizationHeaderValue() async -> Swift.String?
+  #endif
+}
+public struct NewTypeConfig : Swift.Sendable {
+  public enum LiveKitTokenMode : Swift.Sendable, Swift.Hashable {
+    case userTokenAuthorization
+    case userTokenInBody
+    case serviceAuthorization
+    public static func == (a: NewTypeSDK.NewTypeConfig.LiveKitTokenMode, b: NewTypeSDK.NewTypeConfig.LiveKitTokenMode) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let backendBaseUrl: NewTypeSDK.EndpointUrl
+  public let sessionPath: Swift.String
+  public let tokenPath: Swift.String
+  public let liveKitTokenMode: NewTypeSDK.NewTypeConfig.LiveKitTokenMode
+  public let summaryFallbackTimeoutMs: Swift.UInt64
+  public init(backendBaseUrl: NewTypeSDK.EndpointUrl, sessionPath: Swift.String = "/api/sessions", tokenPath: Swift.String = "/api/livekit/token", liveKitTokenMode: NewTypeSDK.NewTypeConfig.LiveKitTokenMode = .userTokenAuthorization, summaryFallbackTimeoutMs: Swift.UInt64 = 20_000)
+}
+public enum NewTypeNetworkError : Swift.Error {
+  case invalidResponse
+  case httpStatus(code: Swift.Int, body: Swift.String)
+}
+public enum SessionStatus : Swift.String, Swift.Sendable, Swift.Codable {
+  case active
+  case ended
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SessionPhase : Swift.String, Swift.Sendable, Swift.Codable {
+  case idle
+  case requestingToken
+  case connecting
+  case connected
+  case leaving
+  case error
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ConnectionStatus : Swift.String, Swift.Sendable, Swift.Codable {
+  case idle
+  case requestingToken
+  case connecting
+  case connected
+  case reconnecting
+  case disconnected
+  case error
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AgentPhase : Swift.String, Swift.Sendable, Swift.Codable {
+  case waiting
+  case opening
+  case listening
+  case processing
+  case closing
+  case error
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum TurnSource : Swift.String, Swift.Sendable, Swift.Codable {
+  case ptt
+  case vad
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum TranscriptSpeaker : Swift.String, Swift.Sendable, Swift.Codable {
+  case child
+  case ai
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct SessionSummary : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let summary: Swift.String
+  public let didWell: Swift.String
+  public let learnedSentences: [Swift.String]
+  public let oneTip: Swift.String
+  public let nextTopic: Swift.String
+  public let pronunciationFocus: Swift.String
+  public init(summary: Swift.String, didWell: Swift.String, learnedSentences: [Swift.String], oneTip: Swift.String, nextTopic: Swift.String, pronunciationFocus: Swift.String)
+  public static func == (a: NewTypeSDK.SessionSummary, b: NewTypeSDK.SessionSummary) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionContextSummary : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let now: Swift.String
+  public let goal: Swift.String
+  public let focus: Swift.String
+  public let teacherNote: Swift.String
+  public init(now: Swift.String, goal: Swift.String, focus: Swift.String, teacherNote: Swift.String)
+  public static func == (a: NewTypeSDK.SessionContextSummary, b: NewTypeSDK.SessionContextSummary) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct AgentMemorySnapshot : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let persona: Swift.String
+  public let teachingPrinciples: [Swift.String]
+  public let correctionStyle: Swift.String
+  public let languagePolicy: Swift.String
+  public static func == (a: NewTypeSDK.AgentMemorySnapshot, b: NewTypeSDK.AgentMemorySnapshot) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum TurnLanguage : Swift.String, Swift.Sendable, Swift.Codable, Swift.Hashable {
+  case en
+  case zh
+  case mixed
+  case unknown
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct TurnPronunciation : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let ipa: Swift.String?
+  public static func == (a: NewTypeSDK.TurnPronunciation, b: NewTypeSDK.TurnPronunciation) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct TurnAsr : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let provider: Swift.String?
+  public let transcript: Swift.String?
+  public let raw: NewTypeSDK.JSONValue?
+  public static func == (a: NewTypeSDK.TurnAsr, b: NewTypeSDK.TurnAsr) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionTurn : Swift.Sendable, Swift.Codable, Swift.Hashable, Swift.Identifiable {
+  public let id: Swift.String
+  public let speaker: NewTypeSDK.TranscriptSpeaker
+  public let text: Swift.String
+  public let language: NewTypeSDK.TurnLanguage
+  public let createdAt: Swift.String
+  public let asr: NewTypeSDK.TurnAsr?
+  public let pronunciation: NewTypeSDK.TurnPronunciation?
+  public let audioPath: Swift.String?
+  public static func == (a: NewTypeSDK.SessionTurn, b: NewTypeSDK.SessionTurn) -> Swift.Bool
+  public typealias ID = Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ProfileMemorySnapshot : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let childName: Swift.String?
+  public let age: Swift.String?
+  public let grade: Swift.String?
+  public let interests: [Swift.String]
+  public let preferredTopic: Swift.String
+  public static func == (a: NewTypeSDK.ProfileMemorySnapshot, b: NewTypeSDK.ProfileMemorySnapshot) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionLearningMemory : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let grammarOrExpressionIssues: [Swift.String]
+  public let learnedSentences: [Swift.String]
+  public let reviewCandidates: [Swift.String]
+  public let nextTopicSuggestions: [Swift.String]
+  public let pronunciationFocus: Swift.String
+  public static func == (a: NewTypeSDK.SessionLearningMemory, b: NewTypeSDK.SessionLearningMemory) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionMemorySignals : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let lastChildTurn: Swift.String
+  public let totalTurns: Swift.Int
+  public let childTurnCount: Swift.Int
+  public static func == (a: NewTypeSDK.SessionMemorySignals, b: NewTypeSDK.SessionMemorySignals) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct StagedMemorySnapshot : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let keyMemories: [Swift.String]
+  public let lastUpdatedAt: Swift.String?
+  public static func == (a: NewTypeSDK.StagedMemorySnapshot, b: NewTypeSDK.StagedMemorySnapshot) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PlannerMemorySnapshot : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let latestDecision: Swift.String?
+  public let latestSteering: NewTypeSDK.JSONValue?
+  public let latestCompression: NewTypeSDK.JSONValue?
+  public let latestControl: NewTypeSDK.JSONValue?
+  public let lastUpdatedAt: Swift.String?
+  public static func == (a: NewTypeSDK.PlannerMemorySnapshot, b: NewTypeSDK.PlannerMemorySnapshot) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionMemorySnapshot : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let learning: NewTypeSDK.SessionLearningMemory?
+  public let signals: NewTypeSDK.SessionMemorySignals?
+  public let stagedMemory: NewTypeSDK.StagedMemorySnapshot?
+  public let planner: NewTypeSDK.PlannerMemorySnapshot?
+  public static func == (a: NewTypeSDK.SessionMemorySnapshot, b: NewTypeSDK.SessionMemorySnapshot) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionRecord : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let sessionId: Swift.String
+  public let roomName: Swift.String?
+  public let customerId: Swift.String?
+  public let productId: Swift.String?
+  public let externalUserId: Swift.String?
+  public let externalSessionId: Swift.String?
+  public let status: NewTypeSDK.SessionStatus
+  public let createdAt: Swift.String
+  public let updatedAt: Swift.String
+  public let endedAt: Swift.String?
+  public let childName: Swift.String?
+  public let age: Swift.String?
+  public let grade: Swift.String?
+  public let topic: Swift.String
+  public let interests: [Swift.String]
+  public let turns: [NewTypeSDK.SessionTurn]
+  public let summary: NewTypeSDK.SessionSummary?
+  public let profileMemory: NewTypeSDK.ProfileMemorySnapshot?
+  public let sessionMemory: NewTypeSDK.SessionMemorySnapshot?
+  public let agentMemory: NewTypeSDK.AgentMemorySnapshot?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(sessionId: Swift.String, roomName: Swift.String?, customerId: Swift.String? = nil, productId: Swift.String? = nil, externalUserId: Swift.String? = nil, externalSessionId: Swift.String? = nil, status: NewTypeSDK.SessionStatus, createdAt: Swift.String, updatedAt: Swift.String, endedAt: Swift.String?, childName: Swift.String?, age: Swift.String?, grade: Swift.String?, topic: Swift.String, interests: [Swift.String], turns: [NewTypeSDK.SessionTurn] = [], summary: NewTypeSDK.SessionSummary?, profileMemory: NewTypeSDK.ProfileMemorySnapshot? = nil, sessionMemory: NewTypeSDK.SessionMemorySnapshot? = nil, agentMemory: NewTypeSDK.AgentMemorySnapshot?)
+  #endif
+  public static func == (a: NewTypeSDK.SessionRecord, b: NewTypeSDK.SessionRecord) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct BearerTokenResponse : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let token: Swift.String
+  public let tokenType: Swift.String
+  public let expiresIn: Swift.Int
+  public var authorizationHeaderValue: Swift.String {
+    get
+  }
+  public init(token: Swift.String, tokenType: Swift.String, expiresIn: Swift.Int)
+  public static func == (a: NewTypeSDK.BearerTokenResponse, b: NewTypeSDK.BearerTokenResponse) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ClientBootstrap : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let controlTopic: Swift.String
+  public let signalTopic: Swift.String
+  public let sessionReady: NewTypeSDK.SignalEnvelope<NewTypeSDK.SessionReadyPayload>?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(controlTopic: Swift.String, signalTopic: Swift.String, sessionReady: NewTypeSDK.SignalEnvelope<NewTypeSDK.SessionReadyPayload>?)
+  #endif
+  public static func == (a: NewTypeSDK.ClientBootstrap, b: NewTypeSDK.ClientBootstrap) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CreateSessionResponse : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let session: NewTypeSDK.SessionRecord
+  public let userToken: NewTypeSDK.BearerTokenResponse?
+  public let client: NewTypeSDK.ClientBootstrap?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(session: NewTypeSDK.SessionRecord, userToken: NewTypeSDK.BearerTokenResponse?, client: NewTypeSDK.ClientBootstrap?)
+  #endif
+  public static func == (a: NewTypeSDK.CreateSessionResponse, b: NewTypeSDK.CreateSessionResponse) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct LiveKitTokenResponse : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let url: Swift.String
+  public let token: Swift.String
+  public let identity: Swift.String
+  public let roomName: Swift.String
+  public let expiresIn: Swift.Int
+  public init(url: Swift.String, token: Swift.String, identity: Swift.String, roomName: Swift.String, expiresIn: Swift.Int)
+  public static func == (a: NewTypeSDK.LiveKitTokenResponse, b: NewTypeSDK.LiveKitTokenResponse) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct StartSessionParams : Swift.Sendable, Swift.Hashable {
+  public let appUserId: Swift.String?
+  public let externalUserId: Swift.String?
+  public let externalSessionId: Swift.String?
+  public let childName: Swift.String
+  public let age: Swift.String?
+  public let grade: Swift.String?
+  public let topic: Swift.String?
+  public let interests: [Swift.String]
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(appUserId: Swift.String? = nil, externalUserId: Swift.String? = nil, externalSessionId: Swift.String? = nil, childName: Swift.String, age: Swift.String? = nil, grade: Swift.String? = nil, topic: Swift.String? = nil, interests: [Swift.String] = [])
+  #endif
+  public static func == (a: NewTypeSDK.StartSessionParams, b: NewTypeSDK.StartSessionParams) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CustomerLoginParams : Swift.Sendable, Swift.Hashable {
+  public let email: Swift.String
+  public let password: Swift.String
+  public init(email: Swift.String, password: Swift.String)
+  public static func == (a: NewTypeSDK.CustomerLoginParams, b: NewTypeSDK.CustomerLoginParams) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CustomerUser : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let appUserId: Swift.String
+  public let email: Swift.String
+  public let displayName: Swift.String?
+  public let created: Swift.Bool
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(appUserId: Swift.String, email: Swift.String, displayName: Swift.String?, created: Swift.Bool)
+  #endif
+  public static func == (a: NewTypeSDK.CustomerUser, b: NewTypeSDK.CustomerUser) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CustomerLoginResponse : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let token: Swift.String
+  public let tokenType: Swift.String
+  public let expiresIn: Swift.Int
+  public let user: NewTypeSDK.CustomerUser
+  public var authorizationHeaderValue: Swift.String {
+    get
+  }
+  public init(token: Swift.String, tokenType: Swift.String, expiresIn: Swift.Int, user: NewTypeSDK.CustomerUser)
+  public static func == (a: NewTypeSDK.CustomerLoginResponse, b: NewTypeSDK.CustomerLoginResponse) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct TranscriptEntry : Swift.Sendable, Swift.Codable, Swift.Hashable, Swift.Identifiable {
+  public let id: Swift.String
+  public let speaker: NewTypeSDK.TranscriptSpeaker
+  public let text: Swift.String
+  public let meta: Swift.String?
+  public let streaming: Swift.Bool
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(id: Swift.String = UUID().uuidString, speaker: NewTypeSDK.TranscriptSpeaker, text: Swift.String, meta: Swift.String? = nil, streaming: Swift.Bool = false)
+  #endif
+  public static func == (a: NewTypeSDK.TranscriptEntry, b: NewTypeSDK.TranscriptEntry) -> Swift.Bool
+  public typealias ID = Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct NewTypeClientState : Swift.Sendable, Swift.Hashable {
+  public let sessionId: Swift.String?
+  public let roomName: Swift.String?
+  public let phase: NewTypeSDK.SessionPhase
+  public let connectionStatus: NewTypeSDK.ConnectionStatus
+  public let agentPhase: NewTypeSDK.AgentPhase
+  public let agentMessage: Swift.String
+  public let participantCount: Swift.Int
+  public let micReady: Swift.Bool
+  public let recording: Swift.Bool
+  public let turnBusy: Swift.Bool
+  public let leaveRequested: Swift.Bool
+  public let transcript: [NewTypeSDK.TranscriptEntry]
+  public let summary: NewTypeSDK.SessionSummary?
+  public let contextSummary: NewTypeSDK.SessionContextSummary?
+  public let errorMessage: Swift.String?
+  public let vadMode: NewTypeSDK.VadMode
+  public let vadPreset: NewTypeSDK.VADPreset?
+  public let vadOptions: NewTypeSDK.VADOptions
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(sessionId: Swift.String?, roomName: Swift.String?, phase: NewTypeSDK.SessionPhase, connectionStatus: NewTypeSDK.ConnectionStatus, agentPhase: NewTypeSDK.AgentPhase, agentMessage: Swift.String, participantCount: Swift.Int, micReady: Swift.Bool, recording: Swift.Bool, turnBusy: Swift.Bool, leaveRequested: Swift.Bool, transcript: [NewTypeSDK.TranscriptEntry], summary: NewTypeSDK.SessionSummary?, contextSummary: NewTypeSDK.SessionContextSummary?, errorMessage: Swift.String?, vadMode: NewTypeSDK.VadMode = .off, vadPreset: NewTypeSDK.VADPreset? = nil, vadOptions: NewTypeSDK.VADOptions = VADOptions())
+  #endif
+  public static func == (a: NewTypeSDK.NewTypeClientState, b: NewTypeSDK.NewTypeClientState) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct RtcParticipant : Swift.Sendable, Swift.Hashable, Swift.Codable, Swift.Identifiable {
+  public let identity: Swift.String
+  public let name: Swift.String
+  public let isLocal: Swift.Bool
+  public var id: Swift.String {
+    get
+  }
+  public init(identity: Swift.String, name: Swift.String, isLocal: Swift.Bool)
+  public static func == (a: NewTypeSDK.RtcParticipant, b: NewTypeSDK.RtcParticipant) -> Swift.Bool
+  public typealias ID = Swift.String
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum JSONValue : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  case string(Swift.String)
+  case int(Swift.Int)
+  case double(Swift.Double)
+  case bool(Swift.Bool)
+  case object([Swift.String : NewTypeSDK.JSONValue])
+  case array([NewTypeSDK.JSONValue])
+  case null
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public static func == (a: NewTypeSDK.JSONValue, b: NewTypeSDK.JSONValue) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class NewTypeSessionClient {
+  public typealias StateHandler = @Sendable (NewTypeSDK.NewTypeClientState) -> Swift.Void
+  public typealias SignalHandler = @Sendable (NewTypeSDK.AgentSignal) -> Swift.Void
+  public typealias ErrorHandler = @Sendable (Swift.String) -> Swift.Void
+  @_Concurrency.MainActor final public var state: NewTypeSDK.NewTypeClientState {
+    get
+  }
+  @_Concurrency.MainActor final public var onStateChanged: NewTypeSDK.NewTypeSessionClient.StateHandler?
+  @_Concurrency.MainActor final public var onSignal: NewTypeSDK.NewTypeSessionClient.SignalHandler?
+  @_Concurrency.MainActor final public var onError: NewTypeSDK.NewTypeSessionClient.ErrorHandler?
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func create(config: NewTypeSDK.NewTypeConfig, authHeaderProvider: (any NewTypeSDK.AuthHeaderProvider)? = nil, urlSession: Foundation.URLSession = .shared) -> NewTypeSDK.NewTypeSessionClient
+  #endif
+  @discardableResult
+  @_Concurrency.MainActor final public func login(_ params: NewTypeSDK.CustomerLoginParams) async throws -> NewTypeSDK.CustomerLoginResponse
+  @discardableResult
+  @_Concurrency.MainActor final public func startSession(_ params: NewTypeSDK.StartSessionParams) async throws -> NewTypeSDK.SessionRecord
+  @_Concurrency.MainActor final public func startTurn(source: NewTypeSDK.TurnSource = .ptt) async throws
+  @_Concurrency.MainActor final public func stopTurn(source: NewTypeSDK.TurnSource = .ptt) async throws
+  @_Concurrency.MainActor final public func startSpeaking() async throws
+  @_Concurrency.MainActor final public func stopSpeaking() async throws
+  @_Concurrency.MainActor final public func setVadMode(_ mode: NewTypeSDK.VadMode)
+  @_Concurrency.MainActor final public func setVadPreset(_ preset: NewTypeSDK.VADPreset)
+  @_Concurrency.MainActor final public func setVadOptions(_ options: NewTypeSDK.VADOptions)
+  @_Concurrency.MainActor final public func getVadMode() -> NewTypeSDK.VadMode
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor final public func getVadPreset() -> NewTypeSDK.VADPreset?
+  #endif
+  @_Concurrency.MainActor final public func getVadOptions() -> NewTypeSDK.VADOptions
+  @_Concurrency.MainActor final public func endSession(reason: Swift.String = "user-leave") async throws
+  @_Concurrency.MainActor final public func interrupt(target: NewTypeSDK.InterruptTarget = .tts, reason: NewTypeSDK.InterruptReason = .userCancel) async throws
+  @_Concurrency.MainActor final public func disconnect() async
+  @_Concurrency.MainActor final public func close()
+  public enum ClientError : Foundation.LocalizedError {
+    case inactiveSession
+    case closed
+    #if compiler(>=5.3) && $NonescapableTypes
+    public var errorDescription: Swift.String? {
+      get
+    }
+    #endif
+    public static func == (a: NewTypeSDK.NewTypeSessionClient.ClientError, b: NewTypeSDK.NewTypeSessionClient.ClientError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @objc deinit
+}
+public enum SignalSource : Swift.String, Swift.Sendable, Swift.Codable {
+  case child
+  case agent
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum LiveKitSignalKind : Swift.String, Swift.Sendable, Swift.Codable {
+  case sessionReady
+  case turnStart
+  case turnStop
+  case taskInterrupt
+  case turnResult
+  case sessionEnd
+  case agentStatus
+  case sessionContext
+  case sessionOpening
+  case ttsStatus
+  case childTranscript
+  case coachReplyDelta
+  case coachReply
+  case sessionSummary
+  case agentError
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum InterruptTarget : Swift.String, Swift.Sendable, Swift.Codable, Swift.Hashable {
+  case tts
+  case asr
+  case all
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum InterruptReason : Swift.String, Swift.Sendable, Swift.Codable, Swift.Hashable {
+  case bargeIn
+  case userCancel
+  case sessionEnd
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum TTSPhase : Swift.String, Swift.Sendable, Swift.Codable, Swift.Hashable {
+  case started
+  case firstAudio
+  case playing
+  case finished
+  case interrupted
+  case error
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct SignalEnvelope<Payload> : Swift.Sendable, Swift.Codable, Swift.Hashable where Payload : Swift.Decodable, Payload : Swift.Encodable, Payload : Swift.Hashable, Payload : Swift.Sendable {
+  public let kind: NewTypeSDK.LiveKitSignalKind
+  public let sessionId: Swift.String
+  public let source: NewTypeSDK.SignalSource
+  public let sentAt: Swift.String
+  public let payload: Payload
+  public init(kind: NewTypeSDK.LiveKitSignalKind, sessionId: Swift.String, source: NewTypeSDK.SignalSource, sentAt: Swift.String, payload: Payload)
+  public static func == (a: NewTypeSDK.SignalEnvelope<Payload>, b: NewTypeSDK.SignalEnvelope<Payload>) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionReadyPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let roomName: Swift.String
+  public init(roomName: Swift.String)
+  public static func == (a: NewTypeSDK.SessionReadyPayload, b: NewTypeSDK.SessionReadyPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct TurnBoundaryPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let source: NewTypeSDK.TurnSource
+  public init(source: NewTypeSDK.TurnSource)
+  public static func == (a: NewTypeSDK.TurnBoundaryPayload, b: NewTypeSDK.TurnBoundaryPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionEndPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let reason: Swift.String
+  public init(reason: Swift.String)
+  public static func == (a: NewTypeSDK.SessionEndPayload, b: NewTypeSDK.SessionEndPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct TaskInterruptPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let target: NewTypeSDK.InterruptTarget
+  public let reason: NewTypeSDK.InterruptReason
+  public init(target: NewTypeSDK.InterruptTarget, reason: NewTypeSDK.InterruptReason)
+  public static func == (a: NewTypeSDK.TaskInterruptPayload, b: NewTypeSDK.TaskInterruptPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct AgentStatusPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let phase: NewTypeSDK.AgentPhase
+  public let message: Swift.String
+  public static func == (a: NewTypeSDK.AgentStatusPayload, b: NewTypeSDK.AgentStatusPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct TTSStatusPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let phase: NewTypeSDK.TTSPhase
+  public let message: Swift.String
+  public static func == (a: NewTypeSDK.TTSStatusPayload, b: NewTypeSDK.TTSStatusPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SessionOpeningPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let text: Swift.String
+  public let pronunciationTip: Swift.String?
+  public let learnedSentenceCandidates: [Swift.String]?
+  public let correctionCandidate: Swift.String?
+  public static func == (a: NewTypeSDK.SessionOpeningPayload, b: NewTypeSDK.SessionOpeningPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ChildTranscriptPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public struct Pronunciation : Swift.Sendable, Swift.Codable, Swift.Hashable {
+    public let ipa: Swift.String?
+    #if compiler(>=5.3) && $NonescapableTypes
+    public init(ipa: Swift.String?)
+    #endif
+    public static func == (a: NewTypeSDK.ChildTranscriptPayload.Pronunciation, b: NewTypeSDK.ChildTranscriptPayload.Pronunciation) -> Swift.Bool
+    public func encode(to encoder: any Swift.Encoder) throws
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public let transcript: Swift.String
+  public let pronunciation: NewTypeSDK.ChildTranscriptPayload.Pronunciation?
+  public static func == (a: NewTypeSDK.ChildTranscriptPayload, b: NewTypeSDK.ChildTranscriptPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CoachReplyDeltaPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let text: Swift.String
+  public static func == (a: NewTypeSDK.CoachReplyDeltaPayload, b: NewTypeSDK.CoachReplyDeltaPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CoachReplyPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let text: Swift.String
+  public let pronunciationTip: Swift.String?
+  public let learnedSentenceCandidates: [Swift.String]?
+  public let correctionCandidate: Swift.String?
+  public static func == (a: NewTypeSDK.CoachReplyPayload, b: NewTypeSDK.CoachReplyPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct AgentErrorPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let message: Swift.String
+  public static func == (a: NewTypeSDK.AgentErrorPayload, b: NewTypeSDK.AgentErrorPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct TurnResultPayload : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let transcript: Swift.String
+  public let ipa: Swift.String
+  public let reply: Swift.String
+  public init(transcript: Swift.String, ipa: Swift.String, reply: Swift.String)
+  public static func == (a: NewTypeSDK.TurnResultPayload, b: NewTypeSDK.TurnResultPayload) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum AgentSignal : Swift.Sendable {
+  case agentStatus(NewTypeSDK.SignalEnvelope<NewTypeSDK.AgentStatusPayload>)
+  case sessionContext(NewTypeSDK.SignalEnvelope<NewTypeSDK.SessionContextSummary>)
+  case sessionOpening(NewTypeSDK.SignalEnvelope<NewTypeSDK.SessionOpeningPayload>)
+  case ttsStatus(NewTypeSDK.SignalEnvelope<NewTypeSDK.TTSStatusPayload>)
+  case childTranscript(NewTypeSDK.SignalEnvelope<NewTypeSDK.ChildTranscriptPayload>)
+  case turnResult(NewTypeSDK.SignalEnvelope<NewTypeSDK.TurnResultPayload>)
+  case coachReplyDelta(NewTypeSDK.SignalEnvelope<NewTypeSDK.CoachReplyDeltaPayload>)
+  case coachReply(NewTypeSDK.SignalEnvelope<NewTypeSDK.CoachReplyPayload>)
+  case sessionSummary(NewTypeSDK.SignalEnvelope<NewTypeSDK.SessionSummary>)
+  case agentError(NewTypeSDK.SignalEnvelope<NewTypeSDK.AgentErrorPayload>)
+  public var kind: NewTypeSDK.LiveKitSignalKind {
+    get
+  }
+  public var sessionId: Swift.String {
+    get
+  }
+}
+public enum VadMode : Swift.String, Swift.Sendable, Swift.Codable {
+  case off
+  case semiAuto
+  case fullAuto
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VADPreset : Swift.String, Swift.Sendable, Swift.Codable {
+  case sensitive
+  case natural
+  case child
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct VADOptions : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let sampleRate: Swift.Int
+  public let positiveSpeechThreshold: Swift.Float
+  public let negativeSpeechThreshold: Swift.Float
+  public let minSpeechFramesMs: Swift.Int
+  public let minSilenceFramesMs: Swift.Int
+  public let speechPadMs: Swift.Int
+  public let speechPreRollMs: Swift.Int
+  public init(sampleRate: Swift.Int = 16000, positiveSpeechThreshold: Swift.Float = 0.5, negativeSpeechThreshold: Swift.Float = 0.35, minSpeechFramesMs: Swift.Int = 100, minSilenceFramesMs: Swift.Int = 500, speechPadMs: Swift.Int = 100, speechPreRollMs: Swift.Int = 400)
+  public static func preset(_ preset: NewTypeSDK.VADPreset) -> NewTypeSDK.VADOptions
+  public static func == (a: NewTypeSDK.VADOptions, b: NewTypeSDK.VADOptions) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum VADState : Swift.String, Swift.Sendable, Swift.Codable {
+  case idle
+  case listening
+  case speaking
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol VADCallbacks : Swift.Sendable {
+  func onSpeechStart()
+  func onSpeechEnd(audio: [Swift.Float])
+  func onVADMisfire()
+}
+public enum SpeechEvent : Swift.Sendable {
+  case pttDown
+  case pttUp
+  case vadStart
+  case vadEnd
+  public static func == (a: NewTypeSDK.SpeechEvent, b: NewTypeSDK.SpeechEvent) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct SpeechState : Swift.Sendable, Swift.Hashable {
+  public let microphoneEnabled: Swift.Bool
+  public let pttHeld: Swift.Bool
+  public let vadSpeaking: Swift.Bool
+  public init(microphoneEnabled: Swift.Bool = false, pttHeld: Swift.Bool = false, vadSpeaking: Swift.Bool = false)
+  public static func == (a: NewTypeSDK.SpeechState, b: NewTypeSDK.SpeechState) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum SpeechTransition : Swift.Sendable {
+  case open
+  case close
+  case none
+  public static func == (a: NewTypeSDK.SpeechTransition, b: NewTypeSDK.SpeechTransition) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct SpeechMutation : Swift.Sendable {
+  public let state: NewTypeSDK.SpeechState
+  public let transition: NewTypeSDK.SpeechTransition
+  public init(state: NewTypeSDK.SpeechState, transition: NewTypeSDK.SpeechTransition)
+}
+public func initialSpeechState() -> NewTypeSDK.SpeechState
+public func applySpeechEvent(state: NewTypeSDK.SpeechState, event: NewTypeSDK.SpeechEvent) -> NewTypeSDK.SpeechMutation
+extension NewTypeSDK.EndpointUrl.EndpointUrlError : Swift.Equatable {}
+extension NewTypeSDK.EndpointUrl.EndpointUrlError : Swift.Hashable {}
+extension NewTypeSDK.SessionStatus : Swift.Equatable {}
+extension NewTypeSDK.SessionStatus : Swift.Hashable {}
+extension NewTypeSDK.SessionStatus : Swift.RawRepresentable {}
+extension NewTypeSDK.SessionPhase : Swift.Equatable {}
+extension NewTypeSDK.SessionPhase : Swift.Hashable {}
+extension NewTypeSDK.SessionPhase : Swift.RawRepresentable {}
+extension NewTypeSDK.ConnectionStatus : Swift.Equatable {}
+extension NewTypeSDK.ConnectionStatus : Swift.Hashable {}
+extension NewTypeSDK.ConnectionStatus : Swift.RawRepresentable {}
+extension NewTypeSDK.AgentPhase : Swift.Equatable {}
+extension NewTypeSDK.AgentPhase : Swift.Hashable {}
+extension NewTypeSDK.AgentPhase : Swift.RawRepresentable {}
+extension NewTypeSDK.TurnSource : Swift.Equatable {}
+extension NewTypeSDK.TurnSource : Swift.Hashable {}
+extension NewTypeSDK.TurnSource : Swift.RawRepresentable {}
+extension NewTypeSDK.TranscriptSpeaker : Swift.Equatable {}
+extension NewTypeSDK.TranscriptSpeaker : Swift.Hashable {}
+extension NewTypeSDK.TranscriptSpeaker : Swift.RawRepresentable {}
+extension NewTypeSDK.TurnLanguage : Swift.RawRepresentable {}
+extension NewTypeSDK.NewTypeSessionClient : Swift.Sendable {}
+extension NewTypeSDK.NewTypeSessionClient.ClientError : Swift.Equatable {}
+extension NewTypeSDK.NewTypeSessionClient.ClientError : Swift.Hashable {}
+extension NewTypeSDK.SignalSource : Swift.Equatable {}
+extension NewTypeSDK.SignalSource : Swift.Hashable {}
+extension NewTypeSDK.SignalSource : Swift.RawRepresentable {}
+extension NewTypeSDK.LiveKitSignalKind : Swift.Equatable {}
+extension NewTypeSDK.LiveKitSignalKind : Swift.Hashable {}
+extension NewTypeSDK.LiveKitSignalKind : Swift.RawRepresentable {}
+extension NewTypeSDK.InterruptTarget : Swift.RawRepresentable {}
+extension NewTypeSDK.InterruptReason : Swift.RawRepresentable {}
+extension NewTypeSDK.TTSPhase : Swift.RawRepresentable {}
+extension NewTypeSDK.VadMode : Swift.Equatable {}
+extension NewTypeSDK.VadMode : Swift.Hashable {}
+extension NewTypeSDK.VadMode : Swift.RawRepresentable {}
+extension NewTypeSDK.VADPreset : Swift.Equatable {}
+extension NewTypeSDK.VADPreset : Swift.Hashable {}
+extension NewTypeSDK.VADPreset : Swift.RawRepresentable {}
+extension NewTypeSDK.VADState : Swift.Equatable {}
+extension NewTypeSDK.VADState : Swift.Hashable {}
+extension NewTypeSDK.VADState : Swift.RawRepresentable {}
+extension NewTypeSDK.SpeechEvent : Swift.Equatable {}
+extension NewTypeSDK.SpeechEvent : Swift.Hashable {}
+extension NewTypeSDK.SpeechTransition : Swift.Equatable {}
+extension NewTypeSDK.SpeechTransition : Swift.Hashable {}
