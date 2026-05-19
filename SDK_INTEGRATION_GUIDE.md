@@ -1,64 +1,62 @@
-# NewType iOS SDK 对接指南
+# NewType iOS SDK 接入指引
 
-本文档详细说明如何将 NewType iOS SDK 集成到您的 iOS 项目中。
+## 简介
 
-## 目录
+NewType iOS SDK 用于在 iOS 应用中接入儿童英语口语陪练会话。SDK 负责登录客户后端、创建会话、获取媒体房间入房凭证、连接房间、管理麦克风与 VAD，并通过状态回调输出转录、AI 回复、会话总结和错误事件。
 
-- [环境要求](#环境要求)
-- [SDK 获取](#sdk-获取)
-- [集成方式](#集成方式)
-  - [方式一：CocoaPods 集成（推荐）](#方式一-cocoapods-集成推荐)
-  - [方式二：手动添加 XCFramework](#方式二手动添加-xcframework)
-- [快速开始](#快速开始)
-- [核心概念](#核心概念)
-- [API 使用详解](#api-使用详解)
-  - [1. 创建配置](#1-创建配置)
-  - [2. 初始化客户端](#2-初始化客户端)
-  - [3. 启动会话](#3-启动会话)
-  - [4. VAD 控制](#4-vad-控制)
-  - [5. 状态观察](#5-状态观察)
-  - [6. 结束会话](#6-结束会话)
-- [类型说明](#类型说明)
-- [最佳实践](#最佳实践)
-- [常见问题](#常见问题)
+当前推荐链路：
 
----
+```text
+iOS App -> 客户后端 / customer-backend-demo -> NewType backend -> 媒体服务器
+```
+
+iOS 端不要直连 NewType backend，也不要在 App 内硬编码媒体服务器 URL。媒体服务器 URL 和 token 由客户后端按 session 下发。
 
 ## 环境要求
 
 | 项目 | 要求 |
 |------|------|
 | iOS 版本 | iOS 13.4+ |
-| Swift 版本 | Swift 5.9+ |
-| Xcode 版本 | Xcode 15.0+ |
-| 架构支持 | arm64 (真机), x86_64/arm64 (模拟器) |
+| Swift | Swift 5.9+ |
+| Xcode | Xcode 15.0+ |
+| 架构支持 | arm64 真机，arm64 / x86_64 模拟器 |
+| 依赖管理 | CocoaPods 1.16+（推荐） |
 
-## SDK 获取
+必需权限：
 
-SDK 以 XCFramework 二进制文件形式提供，不包含源码。
-
-### 方式一：从构建脚本生成
-
-```bash
-# 在 newtypesdk_ios 项目中
-cd newtypesdk_ios/scripts
-./build_xcframework.sh
-
-# 生成的 XCFramework 位于
-# newtypesdk_ios/dist/NewTypeSDK.xcframework
+```xml
+<key>NSMicrophoneUsageDescription</key>
+<string>用于英语口语陪练时采集孩子的语音。</string>
 ```
 
-### 方式二：从 Artifact 仓库下载
+如果客户后端使用局域网 HTTP，例如 `http://192.168.0.12:8090`，宿主 App 需要在 `Info.plist` 中允许对应域名或临时允许明文流量：
 
-从内部 artifact 仓库下载已编译的 `NewTypeSDK.xcframework` 文件。
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+</dict>
+```
 
-## 集成方式
+生产环境建议只对指定域名配置 `NSExceptionDomains`，不要全局打开 `NSAllowsArbitraryLoads`。
 
-### 方式一：CocoaPods 集成（推荐）
+CocoaPods 依赖：
 
-#### 步骤 1：创建 Podspec
+```ruby
+source "https://cdn.cocoapods.org/"
+source "https://github.com/livekit/podspecs.git"
 
-在项目的 `libs/` 目录下创建 `NewTypeSDK-Binary.podspec`：
+platform :ios, "13.4"
+
+use_frameworks! :linkage => :static
+
+target "YourApp" do
+  pod "NewTypeSDK", :path => "./libs/NewTypeSDK-Binary.podspec"
+end
+```
+
+`libs/NewTypeSDK-Binary.podspec` 推荐配置：
 
 ```ruby
 Pod::Spec.new do |s|
@@ -85,506 +83,993 @@ Provides session management, VAD control, and transcript streaming.
 end
 ```
 
-#### 步骤 2：配置 Podfile
+## SDK 获取和安装
 
-在项目根目录的 `Podfile` 中添加：
+### 方式一：CocoaPods 集成（推荐）
 
-```ruby
-source "https://cdn.cocoapods.org/"
-source "https://github.com/livekit/podspecs.git"
+1. 将 `NewTypeSDK.xcframework` 和 `NewTypeSDK-Binary.podspec` 放到宿主工程的 `libs/` 目录。
+2. 在 `Podfile` 中添加 `pod "NewTypeSDK", :path => "./libs/NewTypeSDK-Binary.podspec"`。
+3. 执行 `pod install`。
+4. 使用 `.xcworkspace` 打开工程。
+5. 在业务代码中 `import NewTypeSDK`。
 
-platform :ios, "13.4"
-
-use_frameworks! :linkage => :static
-
-target "YourApp" do
-  pod "NewTypeSDK", :path => "./libs/NewTypeSDK-Binary.podspec"
-end
-```
-
-#### 步骤 3：安装依赖
+本 demo 已完成上述配置，直接执行：
 
 ```bash
+cd newtypesdk_demo_ios
 pod install
+open newtypesdk_demo_ios.xcworkspace
 ```
-
-#### 步骤 4：导入 SDK
-
-在需要使用 SDK 的 Swift 文件中导入：
-
-```swift
-import NewTypeSDK
-```
-
----
 
 ### 方式二：手动添加 XCFramework
 
-#### 步骤 1：复制 XCFramework
+1. 将 `NewTypeSDK.xcframework` 复制到宿主工程目录，例如 `Frameworks/`。
+2. 在 Xcode 中选择 App Target。
+3. 进入 **General** -> **Frameworks, Libraries, and Embedded Content**。
+4. 点击 **+**，选择 `NewTypeSDK.xcframework`。
+5. 将 Embed 设置为 **Embed & Sign**。
+6. 额外确保 `LiveKitClient` 及其依赖已通过 CocoaPods / SPM / 手动方式集成。
 
-将 `NewTypeSDK.xcframework` 复制到项目目录：
-
-```bash
-cp -r NewTypeSDK.xcframework /path/to/YourProject/Frameworks/
-```
-
-#### 步骤 2：添加 Framework 到 Xcode
-
-1. 在 Xcode 中选择项目 Target
-2. 进入 **General** → **Frameworks, Libraries, and Embedded Content**
-3. 点击 **+** 按钮，选择 **Add Other...** → **Add Files...**
-4. 选择 `NewTypeSDK.xcframework`
-
-#### 步骤 3：配置 Embed
-
-确保 Framework 的 Embed 设置为 **Embed & Sign**
-
----
+除非有特殊发布要求，否则推荐使用 CocoaPods，避免遗漏 LiveKit 相关依赖。
 
 ## 快速开始
 
-### 完整示例
-
 ```swift
-import Foundation
 import NewTypeSDK
 
-class SessionManager: ObservableObject {
+@MainActor
+final class SessionManager: ObservableObject {
     private var client: NewTypeSessionClient?
-    
-    @Published var phase: SessionPhase = .idle
-    @Published var transcript: [TranscriptEntry] = []
-    @Published var summary: SessionSummary?
-    
-    func startSession() async throws {
-        // 1. 创建配置
+
+    @Published var state: NewTypeClientState?
+    @Published var lastError: String?
+
+    func start() async throws {
+        let endpoint = try EndpointUrl.parse("http://192.168.0.12:8090")
         let config = NewTypeConfig(
-            backendBaseUrl: try EndpointUrl.parse("https://newtype.squady.app:11000"),
-            liveKitUrlOverride: nil,
-            tokenPath: "/api/livekit/token"
+            backendBaseUrl: endpoint,
+            sessionPath: "/app/sessions",
+            tokenPath: "/app/sessions/{sessionId}/livekit-token",
+            liveKitTokenMode: .userTokenInBody
         )
-        
-        // 2. 创建客户端
+
         let client = NewTypeSessionClient.create(config: config)
         self.client = client
-        
-        // 3. 配置 VAD
-        client.setVadMode(.fullAuto)
-        client.setVadPreset(.natural)
-        
-        // 4. 绑定状态回调
-        client.onStateChanged = { [weak self] state in
+
+        let stateHandler: NewTypeSessionClient.StateHandler = { [weak self] state in
             Task { @MainActor in
-                self?.phase = state.phase
-                self?.transcript = state.transcript
-                self?.summary = state.summary
+                self?.state = state
             }
         }
-        
-        // 5. 启动会话
-        let result = try await client.startSession(
+        let errorHandler: NewTypeSessionClient.ErrorHandler = { [weak self] message in
+            Task { @MainActor in
+                self?.lastError = message
+            }
+        }
+        client.onStateChanged = stateHandler
+        client.onError = errorHandler
+
+        let login = try await client.login(
+            CustomerLoginParams(
+                email: "demo@example.com",
+                password: "demo-password-change-me"
+            )
+        )
+
+        let authorizedClient = NewTypeSessionClient.create(
+            config: config,
+            authHeaderProvider: AnyAuthHeaderProvider {
+                login.authorizationHeaderValue
+            }
+        )
+        self.client = authorizedClient
+        authorizedClient.onStateChanged = stateHandler
+        authorizedClient.onError = errorHandler
+
+        authorizedClient.setVadMode(.fullAuto)
+        authorizedClient.setVadPreset(.natural)
+
+        try await authorizedClient.startSession(
             StartSessionParams(
-                childName: "Leo",
+                appUserId: login.user.appUserId,
+                externalSessionId: "ios-demo-\(Int(Date().timeIntervalSince1970))",
+                childName: login.user.displayName ?? "Leo",
                 age: "9",
                 grade: "Grade 3",
-                roomName: "speaking-demo",
-                identity: "Leo"
+                topic: "speaking",
+                interests: []
             )
         )
     }
-    
-    func endSession() async throws {
+
+    func stop() async throws {
         try await client?.endSession(reason: "user-leave")
+        client?.close()
+        client = nil
     }
 }
 ```
 
----
+监听状态和事件：
 
-## 核心概念
+```swift
+client.onStateChanged = { state in
+    Task { @MainActor in
+        renderState(state)
+    }
+}
 
-### SessionPhase（会话阶段）
+client.onSignal = { signal in
+    print("signal kind=\(signal.kind) sessionId=\(signal.sessionId)")
+}
 
-| 阶段 | 说明 |
-|------|------|
-| `.idle` | 空闲状态，未开始会话 |
-| `.connecting` | 正在连接后端和房间 |
-| `.connected` | 已连接，可以进行对话 |
-| `.ending` | 正在结束会话 |
-| `.ended` | 会话已结束 |
+client.onError = { message in
+    showError(message)
+}
+```
 
-### ConnectionStatus（连接状态）
+结束会话：
 
-| 状态 | 说明 |
-|------|------|
-| `.idle` | 未开始连接 |
-| `.connecting` | 正在连接 |
-| `.connected` | 已连接 |
-| `.disconnected` | 已断开 |
+```swift
+try await client.endSession(reason: "user-leave")
+client.close()
+```
 
-### AgentPhase（Agent 阶段）
+## 推荐接入流程
 
-| 阶段 | 说明 |
-|------|------|
-| `.waiting` | 等待 Agent 加入 |
-| `.joining` | Agent 正在加入 |
-| `.joined` | Agent 已加入房间 |
-| `.leaving` | Agent 正在离开 |
-| `.left` | Agent 已离开 |
+```text
+1. 配置 Info.plist：麦克风权限，必要时配置 ATS 明文流量例外
+2. 通过 CocoaPods 集成 NewTypeSDK.xcframework
+3. 创建 NewTypeConfig，指向客户后端地址和路径
+4. 创建 NewTypeSessionClient
+5. 调用 client.login(CustomerLoginParams) 登录客户后端
+6. 保存 login.user 和 login.authorizationHeaderValue
+7. 使用 AuthHeaderProvider 创建带 Authorization 的 client
+8. 展示 login.user 的用户信息，让用户确认 childName / age / grade / topic
+9. 调用 client.startSession(StartSessionParams)
+10. 监听 onStateChanged / onSignal / onError 渲染连接状态、转录和总结
+11. 按 VAD 模式控制 startSpeaking() / stopSpeaking()
+12. 结束时调用 endSession(reason:)，页面销毁时调用 close()
+```
 
-### VadMode（语音检测模式）
+## SDK 接口总览
 
-| 模式 | 说明 | 使用场景 |
-|------|------|----------|
-| `.off` | PTT 模式，完全手动控制 | 需要精确控制录音时机 |
-| `.semiAuto` | 半自动，VAD 检测但需确认 | 需要一定自动化但仍保留控制 |
-| `.fullAuto` | 全自动，VAD 自动检测 | 儿童自由对话场景 |
+| 接口 | 作用 | 主要输入 | 主要输出 |
+|------|------|----------|----------|
+| `EndpointUrl.parse(...)` | 校验并创建 URL 类型 | URL 字符串 | `EndpointUrl` |
+| `NewTypeConfig(...)` | 配置客户后端地址和路径 | 客户后端 URL、路径、token 模式 | 配置对象 |
+| `AnyAuthHeaderProvider(...)` | 提供 Authorization 头 | 异步闭包 | `AuthHeaderProvider` |
+| `NewTypeSessionClient.create(...)` | 创建 SDK 客户端 | `NewTypeConfig`、可选认证提供器 | `NewTypeSessionClient` |
+| `client.login(...)` | 登录客户后端 | email、password | `CustomerLoginResponse` |
+| `client.startSession(...)` | 创建会话、获取媒体 token、连接房间 | `StartSessionParams` | `SessionRecord` |
+| `client.endSession(...)` | 结束并离开会话 | reason | 无 |
+| `client.startSpeaking()` | 开始一轮发言 | 无 | 无 |
+| `client.stopSpeaking()` | 结束一轮发言 | 无 | 无 |
+| `client.startTurn(...)` | 高级接口，发送 turn.start | `TurnSource` | 无 |
+| `client.stopTurn(...)` | 高级接口，发送 turn.stop | `TurnSource` | 无 |
+| `client.setVadMode(...)` | 设置发言控制模式 | `VadMode` | 无 |
+| `client.setVadPreset(...)` | 设置 VAD 预设 | `VADPreset` | 无 |
+| `client.setVadOptions(...)` | 设置自定义 VAD 参数 | `VADOptions` | 无 |
+| `client.getVadMode()` | 获取当前 VAD 模式 | 无 | `VadMode` |
+| `client.getVadPreset()` | 获取当前 VAD 预设 | 无 | `VADPreset?` |
+| `client.getVadOptions()` | 获取当前 VAD 参数 | 无 | `VADOptions` |
+| `client.interrupt(...)` | 中断 TTS / ASR / 全部任务 | target、reason | 无 |
+| `client.disconnect()` | 断开媒体房间连接 | 无 | 无 |
+| `client.close()` | 释放 SDK 资源 | 无 | 无 |
+| `client.state` | 获取当前状态快照 | 属性读取 | `NewTypeClientState` |
+| `client.onStateChanged` | 监听状态变化 | 回调闭包 | `NewTypeClientState` |
+| `client.onSignal` | 监听 Agent 信令 | 回调闭包 | `AgentSignal` |
+| `client.onError` | 监听错误事件 | 回调闭包 | `String` |
 
-### VADPreset（VAD 预设）
+## API 详细说明
 
-| 预设 | 说明 | 适用场景 |
-|------|------|----------|
-| `.sensitive` | 灵敏模式 | 安静环境，检测微弱声音 |
-| `.natural` | 自然模式 | 一般环境，平衡参数 |
-| `.child` | 儿童模式 | 针对儿童语音优化 |
+### EndpointUrl
 
----
+作用：封装并校验后端 URL。
 
-## API 使用详解
+```swift
+let endpoint = try EndpointUrl.parse("http://192.168.0.12:8090")
+let optionalEndpoint = EndpointUrl.parseOrNull("http://192.168.0.12:8090")
+```
 
-### 1. 创建配置
+| 接口 | 返回 | 含义 |
+|------|------|------|
+| `parse(_:)` | `EndpointUrl` | URL 无效时抛出 `EndpointUrlError.invalidUrl`。 |
+| `parseOrNull(_:)` | `EndpointUrl?` | URL 无效时返回 `nil`。 |
+| `value` | `String` | 原始 URL 字符串。 |
+
+### NewTypeConfig
+
+作用：配置 SDK 访问客户后端的地址、接口路径和 token 获取模式。
 
 ```swift
 let config = NewTypeConfig(
-    backendBaseUrl: try EndpointUrl.parse("https://newtype.squady.app:11000"),
-    liveKitUrlOverride: nil,  // 可选：覆盖 LiveKit URL
-    tokenPath: "/api/livekit/token"
+    backendBaseUrl: try EndpointUrl.parse("http://192.168.0.12:8090"),
+    sessionPath: "/app/sessions",
+    tokenPath: "/app/sessions/{sessionId}/livekit-token",
+    liveKitTokenMode: .userTokenInBody,
+    summaryFallbackTimeoutMs: 20_000
 )
 ```
 
-**参数说明：**
+| 字段 | 类型 | 必填 | 默认值 | 含义 |
+|------|------|------|--------|------|
+| `backendBaseUrl` | `EndpointUrl` | 是 | 无 | 客户后端基础地址，例如 `http://192.168.0.12:8090`。 |
+| `sessionPath` | `String` | 否 | `/api/sessions` | 创建会话路径。对齐客户后端 demo 时使用 `/app/sessions`。 |
+| `tokenPath` | `String` | 否 | `/api/livekit/token` | 获取媒体服务器 token 的路径。对齐客户后端 demo 时使用 `/app/sessions/{sessionId}/livekit-token`。 |
+| `liveKitTokenMode` | `NewTypeConfig.LiveKitTokenMode` | 否 | `.userTokenAuthorization` | 获取 LiveKit token 时如何携带用户 token。 |
+| `summaryFallbackTimeoutMs` | `UInt64` | 否 | `20_000` | 结束会话后等待总结的兜底超时时间。 |
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `backendBaseUrl` | `EndpointUrl` | 是 | NewType 后端服务地址 |
-| `liveKitUrlOverride` | `EndpointUrl?` | 否 | 覆盖 LiveKit WebSocket 地址 |
-| `tokenPath` | `String` | 是 | 获取 LiveKit Token 的 API 路径 |
+`LiveKitTokenMode`：
 
----
+| 值 | 含义 | 适用场景 |
+|----|------|----------|
+| `.userTokenAuthorization` | 通过 `Authorization` 头传递用户 token。 | 后端从请求头读取 customer JWT。 |
+| `.userTokenInBody` | 将用户 token 放入请求 body。 | 当前客户后端 demo 推荐模式。 |
+| `.serviceAuthorization` | 使用服务级 Authorization。 | 服务端代理或内部集成场景。 |
 
-### 2. 初始化客户端
+注意：这里不配置媒体服务器 URL。媒体服务器 URL 必须由客户后端的 token 接口返回。
+
+### AuthHeaderProvider / AnyAuthHeaderProvider
+
+作用：为需要认证的请求提供 `Authorization` 头，例如 `Bearer <customer-jwt>`。
 
 ```swift
-let client = NewTypeSessionClient.create(config: config)
+let provider = AnyAuthHeaderProvider {
+    login.authorizationHeaderValue
+}
+
+let client = NewTypeSessionClient.create(
+    config: config,
+    authHeaderProvider: provider
+)
 ```
 
-**注意：** 客户端创建后需要尽快调用 `startSession`，避免资源闲置。
+| 接口 | 含义 |
+|------|------|
+| `AuthHeaderProvider.getAuthorizationHeaderValue()` | 异步返回 Authorization header value。 |
+| `AnyAuthHeaderProvider { ... }` | 用闭包快速创建认证提供器。 |
 
----
+生产建议：业务 App 自己完成登录并安全存储 customer JWT，然后通过 `AuthHeaderProvider` 传给 SDK。Demo 为了演示完整链路，直接调用 `client.login(...)` 获取 JWT。
 
-### 3. 启动会话
+### NewTypeSessionClient.create
+
+作用：创建 SDK 主客户端。
 
 ```swift
-let result = try await client.startSession(
-    StartSessionParams(
-        childName: "Leo",           // 儿童姓名（必填）
-        age: "9",                   // 年龄（可选）
-        grade: "Grade 3",           // 年级（可选）
-        roomName: "speaking-demo",  // 房间名（可选）
-        identity: "Leo"             // 身份标识（可选，默认使用 childName）
+let client = NewTypeSessionClient.create(
+    config: config,
+    authHeaderProvider: provider,
+    urlSession: .shared
+)
+```
+
+| 参数 | 类型 | 含义 |
+|------|------|------|
+| `config` | `NewTypeConfig` | SDK 配置对象。 |
+| `authHeaderProvider` | `AuthHeaderProvider?` | 可选认证提供器，用于创建 session、获取 token、结束 session。 |
+| `urlSession` | `URLSession` | 可选网络会话，默认 `.shared`。 |
+
+返回：`NewTypeSessionClient`。
+
+注意：`NewTypeSessionClient` 是 `@MainActor` 类型，建议在主线程 / `@MainActor` ViewModel 中创建和调用。
+
+### client.login
+
+作用：登录客户后端，获取 customer JWT 和客户侧用户信息。推荐先登录，再创建带认证的 client 调用 `startSession()`。
+
+```swift
+let response = try await client.login(
+    CustomerLoginParams(
+        email: "demo@example.com",
+        password: "demo-password-change-me"
     )
 )
 ```
 
-**参数说明：**
+入参：
 
-| 参数 | 类型 | 必填 | 说明 |
+```swift
+public struct CustomerLoginParams: Sendable, Hashable {
+    public let email: String
+    public let password: String
+}
+```
+
+| 参数 | 类型 | 含义 |
+|------|------|------|
+| `email` | `String` | 登录邮箱，业务层建议先 trim。 |
+| `password` | `String` | 登录密码。 |
+
+出参：
+
+```swift
+public struct CustomerLoginResponse: Sendable, Codable, Hashable {
+    public let token: String
+    public let tokenType: String
+    public let expiresIn: Int
+    public let user: CustomerUser
+    public var authorizationHeaderValue: String { get }
+}
+
+public struct CustomerUser: Sendable, Codable, Hashable {
+    public let appUserId: String
+    public let email: String
+    public let displayName: String?
+    public let created: Bool
+}
+```
+
+| 字段 | 含义 |
+|------|------|
+| `token` | customer JWT，后续创建 session 使用。 |
+| `tokenType` | token 类型，通常为 `Bearer`。 |
+| `expiresIn` | token 有效期，当前 demo 语义为秒。 |
+| `authorizationHeaderValue` | 拼好的 Authorization 值，例如 `Bearer <token>`。 |
+| `user.appUserId` | 客户侧用户 ID。 |
+| `user.email` | 用户邮箱。 |
+| `user.displayName` | 用户显示名，可作为默认 `childName`。 |
+| `user.created` | 是否本次登录创建了新用户。 |
+
+异常：网络失败、HTTP 非 2xx、响应 JSON 不匹配时会抛出异常。
+
+### client.startSession
+
+作用：创建 NewType 会话、获取媒体服务器 token、连接媒体房间，并发送 `session.ready`。
+
+```swift
+let session = try await client.startSession(
+    StartSessionParams(
+        appUserId: login.user.appUserId,
+        externalSessionId: "ios-demo-001",
+        childName: "Leo",
+        age: "9",
+        grade: "Grade 3",
+        topic: "speaking",
+        interests: ["animals", "football"]
+    )
+)
+```
+
+入参：
+
+```swift
+public struct StartSessionParams: Sendable, Hashable {
+    public let appUserId: String?
+    public let externalUserId: String?
+    public let externalSessionId: String?
+    public let childName: String
+    public let age: String?
+    public let grade: String?
+    public let topic: String?
+    public let interests: [String]
+}
+```
+
+| 字段 | 类型 | 建议 | 含义 |
 |------|------|------|------|
-| `childName` | `String` | 是 | 儿童姓名，用于 AI 个性化交互 |
-| `age` | `String?` | 否 | 年龄，帮助 AI 调整对话难度 |
-| `grade` | `String?` | 否 | 年级，帮助 AI 调整对话内容 |
-| `roomName` | `String?` | 否 | 房间名称，不填则自动生成 |
-| `identity` | `String` | 否 | 身份标识，用于区分用户 |
+| `appUserId` | `String?` | 推荐填写 | 客户侧用户 ID，通常使用 `login.user.appUserId`。 |
+| `externalUserId` | `String?` | 可选 | 客户业务系统自己的用户 ID。 |
+| `externalSessionId` | `String?` | 可选 | 客户业务系统自己的会话 ID。 |
+| `childName` | `String` | 必填 | 孩子姓名或显示名。 |
+| `age` | `String?` | 推荐填写 | 年龄，例如 `9`。 |
+| `grade` | `String?` | 推荐填写 | 年级，例如 `Grade 3`。 |
+| `topic` | `String?` | 推荐填写 | 产品/场景/会话主题。Web demo 常用 `speaking`。 |
+| `interests` | `[String]` | 可选 | 兴趣标签。 |
 
----
+执行过程：
 
-### 4. VAD 控制
+1. `POST /app/sessions` 创建 session。
+2. `POST /app/sessions/{sessionId}/livekit-token` 获取媒体服务器 URL/token。
+3. 连接媒体服务器。
+4. 发布 `session.ready` 到控制信令 topic。
+5. 通过 `state` 和 `onStateChanged` 输出连接状态和会话数据。
 
-#### 设置 VAD 模式
+返回：`SessionRecord`。连接后续状态、转录、AI 回复和总结通过回调观察。
 
-```swift
-// PTT 模式（手动控制）
-client.setVadMode(.off)
+### client.endSession
 
-// 半自动模式
-client.setVadMode(.semiAuto)
-
-// 全自动模式
-client.setVadMode(.fullAuto)
-```
-
-#### 设置 VAD Preset
-
-```swift
-client.setVadPreset(.sensitive)  // 灵敏
-client.setVadPreset(.natural)    // 自然
-client.setVadPreset(.child)      // 儿童
-```
-
-#### 自定义 VAD 参数
-
-```swift
-client.setVadOptions(VADOptions(
-    threshold: 0.5,      // 检测阈值 (0.0-1.0)
-    minSpeechMs: 500,    // 最小说话时长 (毫秒)
-    minSilenceMs: 300    // 最小静音时长 (毫秒)
-))
-```
-
-#### PTT 模式控制
-
-```swift
-// 开始录音
-try await client.startSpeaking()
-
-// 停止录音
-try await client.stopSpeaking()
-```
-
----
-
-### 5. 状态观察
-
-#### 状态变化回调
-
-```swift
-client.onStateChanged = { state in
-    print("会话阶段：\(state.phase)")
-    print("连接状态：\(state.connectionStatus)")
-    print("Agent 阶段：\(state.agentPhase)")
-    print("参与者数量：\(state.participantCount)")
-    print("转录文本：\(state.transcript)")
-    print("会话总结：\(state.summary)")
-}
-```
-
-#### 信号回调
-
-```swift
-client.onSignal = { signal in
-    print("SDK 内部信号：\(signal)")
-}
-```
-
-#### 错误回调
-
-```swift
-client.onError = { message in
-    print("错误：\(message)")
-}
-```
-
----
-
-### 6. 结束会话
+作用：发送结束信令、通知客户后端结束 session，并断开媒体房间。
 
 ```swift
 try await client.endSession(reason: "user-leave")
 ```
 
-**可选的 reason 值：**
+| 参数 | 类型 | 含义 |
+|------|------|------|
+| `reason` | `String` | 离开原因，例如 `user-leave`。默认值为 `user-leave`。 |
 
-| 原因 | 说明 |
+可选 reason：
+
+| 值 | 含义 |
+|----|------|
+| `user-leave` | 用户主动离开。 |
+| `session-complete` | 会话自然完成。 |
+| `timeout` | 超时结束。 |
+| `error` | 因错误结束。 |
+
+返回：无。结束期间状态通常会进入 `.leaving`，结束后回到 `.idle` 或断开状态。
+
+### client.startSpeaking
+
+作用：开始一轮用户发言。
+
+```swift
+try await client.startSpeaking()
+```
+
+| 当前模式 | 行为 |
+|----------|------|
+| `.off` | PTT 模式，打开麦克风并发送 `turn.start`。 |
+| `.semiAuto` | 开始半自动 VAD 检测，检测到语音后发送 `turn.start`。 |
+| `.fullAuto` | 通常无需手动调用。 |
+
+返回：无。状态通过 `state.recording`、`state.agentPhase`、`state.turnBusy` 输出。
+
+### client.stopSpeaking
+
+作用：结束一轮用户发言。
+
+```swift
+try await client.stopSpeaking()
+```
+
+| 当前模式 | 行为 |
+|----------|------|
+| `.off` | PTT 模式，发送 `turn.stop` 并关闭麦克风。 |
+| `.semiAuto` | 停止半自动 VAD 并发送 `turn.stop`。 |
+| `.fullAuto` | 通常无需手动调用。 |
+
+返回：无。状态通过 `state.recording`、`state.turnBusy` 输出。
+
+### client.startTurn / client.stopTurn
+
+作用：高级接口，直接发送 turn 边界信令。一般推荐使用 `startSpeaking()` / `stopSpeaking()`。
+
+```swift
+try await client.startTurn(source: .ptt)
+try await client.stopTurn(source: .ptt)
+```
+
+| 参数 | 类型 | 值 |
+|------|------|----|
+| `source` | `TurnSource` | `.ptt` 或 `.vad`。默认 `.ptt`。 |
+
+### client.setVadMode
+
+作用：设置发言控制模式。
+
+```swift
+client.setVadMode(.fullAuto)
+```
+
+```swift
+public enum VadMode: String, Sendable, Codable {
+    case off
+    case semiAuto
+    case fullAuto
+}
+```
+
+| 值 | 含义 | 适用场景 |
+|----|------|----------|
+| `.off` | 关闭 VAD，使用 PTT。 | 需要手动控制开始/结束。 |
+| `.semiAuto` | 手动启动一轮，VAD 检测开始，手动结束。 | 噪声环境或需要手动收口。 |
+| `.fullAuto` | VAD 自动检测开始和结束。 | 自然对话。 |
+
+### client.setVadPreset
+
+作用：设置内置 VAD 灵敏度预设。
+
+```swift
+client.setVadPreset(.natural)
+```
+
+```swift
+public enum VADPreset: String, Sendable, Codable {
+    case sensitive
+    case natural
+    case child
+}
+```
+
+| 值 | 含义 |
+|----|------|
+| `.sensitive` | 更容易触发，适合安静环境和轻声说话。 |
+| `.natural` | 平衡灵敏度，默认推荐。 |
+| `.child` | 对儿童声音和停顿更宽容。 |
+
+### client.setVadOptions
+
+作用：设置自定义 VAD 参数。调用后当前 preset 会变为 `nil`。
+
+```swift
+client.setVadOptions(
+    VADOptions(
+        sampleRate: 16_000,
+        positiveSpeechThreshold: 0.5,
+        negativeSpeechThreshold: 0.35,
+        minSpeechFramesMs: 100,
+        minSilenceFramesMs: 500,
+        speechPadMs: 100,
+        speechPreRollMs: 400
+    )
+)
+```
+
+```swift
+public struct VADOptions: Sendable, Codable, Hashable {
+    public let sampleRate: Int
+    public let positiveSpeechThreshold: Float
+    public let negativeSpeechThreshold: Float
+    public let minSpeechFramesMs: Int
+    public let minSilenceFramesMs: Int
+    public let speechPadMs: Int
+    public let speechPreRollMs: Int
+}
+```
+
+| 字段 | 含义 |
 |------|------|
-| `"user-leave"` | 用户主动离开 |
-| `"session-complete"` | 会话自然完成 |
-| `"error"` | 因错误结束 |
-| `"timeout"` | 超时结束 |
+| `sampleRate` | VAD 目标采样率，SDK 内部标准化为 `16000`。 |
+| `positiveSpeechThreshold` | 开始说话阈值，越低越容易触发。 |
+| `negativeSpeechThreshold` | 停止说话阈值。 |
+| `minSpeechFramesMs` | 最短有效语音时长。 |
+| `minSilenceFramesMs` | 判定一轮结束所需静音时长。 |
+| `speechPadMs` | 尾部保留音频时长。 |
+| `speechPreRollMs` | 起始前预录音时长，避免吞字。 |
 
----
-
-## 类型说明
-
-### TranscriptEntry（转录条目）
+可使用内置预设生成参数：
 
 ```swift
-struct TranscriptEntry {
-    let speaker: SpeakerRole      // 说话者角色 (.ai 或 .child)
-    let text: String              // 转录文本
-    let meta: String?             // 元数据（可选）
-    let streaming: Bool           // 是否流式传输中
-}
+let options = VADOptions.preset(.child)
+client.setVadOptions(options)
 ```
 
-### SessionSummary（会话总结）
+### client.getVadMode / getVadPreset / getVadOptions
+
+作用：读取当前 VAD 配置。
 
 ```swift
-struct SessionSummary {
-    let summary: String           // 总体评价
-    let didWell: String           // 做得好的地方
-    let oneTip: String            // 改进建议
-    let nextTopic: String         // 下一个话题建议
-    let pronunciationFocus: String // 发音重点
-}
+let mode = client.getVadMode()
+let preset = client.getVadPreset()
+let options = client.getVadOptions()
 ```
 
-### NewTypeClientState（客户端状态）
+| 接口 | 返回 | 含义 |
+|------|------|------|
+| `getVadMode()` | `VadMode` | 当前 VAD 模式。 |
+| `getVadPreset()` | `VADPreset?` | 当前预设；`nil` 表示使用自定义参数。 |
+| `getVadOptions()` | `VADOptions` | 当前生效的 VAD 参数。 |
+
+### client.interrupt
+
+作用：中断正在进行的 TTS、ASR 或全部任务。适用于用户取消播放、打断 AI 回复或退出会话前清理。
 
 ```swift
-struct NewTypeClientState {
-    let sessionId: String?
-    let phase: SessionPhase
-    let connectionStatus: ConnectionStatus
-    let agentPhase: AgentPhase
-    let agentMessage: String
-    let participantCount: Int
-    let micReady: Bool
-    let recording: Bool
-    let turnBusy: Bool
-    let leaveRequested: Bool
-    let transcript: [TranscriptEntry]
-    let summary: SessionSummary?
-    let errorMessage: String?
-}
+try await client.interrupt(target: .tts, reason: .userCancel)
 ```
 
----
+| 参数 | 类型 | 可选值 | 含义 |
+|------|------|--------|------|
+| `target` | `InterruptTarget` | `.tts` / `.asr` / `.all` | 中断目标，默认 `.tts`。 |
+| `reason` | `InterruptReason` | `.bargeIn` / `.userCancel` / `.sessionEnd` | 中断原因，默认 `.userCancel`。 |
 
-## 最佳实践
+### client.disconnect / close
 
-### 1. ViewModel 模式管理 SDK
-
-使用 SwiftUI 的 `ObservableObject` 管理 SDK 状态：
+作用：断开连接或释放资源。
 
 ```swift
-@MainActor
-final class SessionViewModel: ObservableObject {
-    @Published var phase: SessionPhase = .idle
-    @Published var transcript: [TranscriptEntry] = []
-    
-    private var client: NewTypeSessionClient?
-    
-    func join() async {
-        // 创建和配置客户端
-    }
-    
-    func leave() async {
-        // 结束会话
-    }
-}
+await client.disconnect()
+client.close()
 ```
 
-### 2. 在主线程更新 UI
+| 接口 | 行为 |
+|------|------|
+| `disconnect()` | 断开媒体房间连接，不一定释放全部 SDK 资源。 |
+| `close()` | 停止 VAD、释放音频/房间资源、取消内部任务。 |
 
-SDK 回调可能不在主线程，使用 `Task { @MainActor in }` 确保 UI 更新：
+建议在 ViewModel `deinit`、页面销毁或用户退出流程中调用 `close()`。
+
+## 状态和事件模型
+
+### client.state
 
 ```swift
-client.onStateChanged = { [weak self] state in
+@MainActor var state: NewTypeClientState { get }
+```
+
+`state` 是当前状态快照。状态变化建议通过 `onStateChanged` 监听。
+
+### client.onStateChanged
+
+```swift
+client.onStateChanged = { state in
     Task { @MainActor in
-        self?.updateUI(state: state)
+        renderState(state)
     }
 }
 ```
 
-### 3. 清理资源
+`NewTypeClientState`：
 
-在视图消失或对象销毁时关闭客户端：
+| 字段 | 类型 | 含义 |
+|------|------|------|
+| `sessionId` | `String?` | 当前 NewType session ID。 |
+| `roomName` | `String?` | 当前媒体房间名称。 |
+| `phase` | `SessionPhase` | 当前会话阶段。 |
+| `connectionStatus` | `ConnectionStatus` | 媒体连接状态。 |
+| `agentPhase` | `AgentPhase` | Agent 状态。 |
+| `agentMessage` | `String` | Agent 状态提示文案。 |
+| `participantCount` | `Int` | 媒体房间参与者数量。 |
+| `micReady` | `Bool` | 麦克风是否已初始化可用。 |
+| `recording` | `Bool` | 当前是否正在采集一轮用户发言。 |
+| `turnBusy` | `Bool` | AI/后端是否正在处理当前 turn。 |
+| `leaveRequested` | `Bool` | 是否已请求离开。 |
+| `transcript` | `[TranscriptEntry]` | 对话转录列表。 |
+| `summary` | `SessionSummary?` | 会话总结。 |
+| `contextSummary` | `SessionContextSummary?` | 当前会话上下文摘要。 |
+| `errorMessage` | `String?` | 当前错误信息。 |
+| `vadMode` | `VadMode` | 当前 VAD 模式。 |
+| `vadPreset` | `VADPreset?` | 当前 VAD 预设。 |
+| `vadOptions` | `VADOptions` | 当前 VAD 参数。 |
+
+### SessionPhase
 
 ```swift
-deinit {
-    client?.close()
+public enum SessionPhase: String, Sendable, Codable {
+    case idle
+    case requestingToken
+    case connecting
+    case connected
+    case leaving
+    case error
 }
+```
 
-func onDisappear() {
-    if client != nil {
-        Task {
-            try? await client?.endSession(reason: "user-leave")
-        }
+| 值 | 含义 |
+|----|------|
+| `.idle` | 空闲或已断开。 |
+| `.requestingToken` | 正在创建 session / 获取媒体服务器 token。 |
+| `.connecting` | 正在连接媒体服务器。 |
+| `.connected` | 已连接并可对话。 |
+| `.leaving` | 正在离开。 |
+| `.error` | 发生错误。 |
+
+### ConnectionStatus
+
+```swift
+public enum ConnectionStatus: String, Sendable, Codable {
+    case idle
+    case requestingToken
+    case connecting
+    case connected
+    case reconnecting
+    case disconnected
+    case error
+}
+```
+
+| 值 | 含义 |
+|----|------|
+| `.idle` | 未开始连接。 |
+| `.requestingToken` | 正在获取媒体服务器 token。 |
+| `.connecting` | 正在连接媒体服务器。 |
+| `.connected` | 已连接。 |
+| `.reconnecting` | 正在重连。 |
+| `.disconnected` | 已断开。 |
+| `.error` | 连接错误。 |
+
+### AgentPhase
+
+```swift
+public enum AgentPhase: String, Sendable, Codable {
+    case waiting
+    case opening
+    case listening
+    case processing
+    case closing
+    case error
+}
+```
+
+| 值 | 含义 |
+|----|------|
+| `.waiting` | 等待用户或等待下一步。 |
+| `.opening` | Agent 正在或已经发送开场。 |
+| `.listening` | 正在听用户说话。 |
+| `.processing` | 正在处理用户发言或生成回复。 |
+| `.closing` | 正在收尾或生成总结。 |
+| `.error` | Agent 或链路发生错误。 |
+
+### TranscriptEntry
+
+```swift
+public struct TranscriptEntry: Sendable, Codable, Hashable, Identifiable {
+    public let id: String
+    public let speaker: TranscriptSpeaker
+    public let text: String
+    public let meta: String?
+    public let streaming: Bool
+}
+```
+
+| 字段 | 类型 | 含义 |
+|------|------|------|
+| `id` | `String` | 本地生成的转录条目 ID。 |
+| `speaker` | `TranscriptSpeaker` | `.child` 或 `.ai`。 |
+| `text` | `String` | 文本内容。 |
+| `meta` | `String?` | 补充信息，例如 IPA 或纠错候选。 |
+| `streaming` | `Bool` | 是否为 AI 流式回复中的临时文本。 |
+
+### SessionSummary
+
+```swift
+public struct SessionSummary: Sendable, Codable, Hashable {
+    public let summary: String
+    public let didWell: String
+    public let learnedSentences: [String]
+    public let oneTip: String
+    public let nextTopic: String
+    public let pronunciationFocus: String
+}
+```
+
+| 字段 | 类型 | 含义 |
+|------|------|------|
+| `summary` | `String` | 本次会话一句话总结。 |
+| `didWell` | `String` | 正向反馈。 |
+| `learnedSentences` | `[String]` | 本次学到的可复用句子。 |
+| `oneTip` | `String` | 一个轻量建议。 |
+| `nextTopic` | `String` | 下次建议话题。 |
+| `pronunciationFocus` | `String` | 发音关注点。 |
+
+### SessionContextSummary
+
+```swift
+public struct SessionContextSummary: Sendable, Codable, Hashable {
+    public let now: String
+    public let goal: String
+    public let focus: String
+    public let teacherNote: String
+}
+```
+
+| 字段 | 含义 |
+|------|------|
+| `now` | 当前会话状态摘要。 |
+| `goal` | 会话目标。 |
+| `focus` | 当前教学关注点。 |
+| `teacherNote` | 给教学/展示层的补充说明。 |
+
+### client.onSignal
+
+```swift
+client.onSignal = { signal in
+    switch signal {
+    case .agentStatus(let envelope):
+        print(envelope.payload.message)
+    case .childTranscript(let envelope):
+        print(envelope.payload.transcript)
+    case .coachReply(let envelope):
+        print(envelope.payload.text)
+    case .sessionSummary(let envelope):
+        print(envelope.payload.summary)
+    default:
+        break
     }
 }
 ```
 
-### 4. 错误处理
+`AgentSignal`：
 
-使用 do-catch 块处理异步错误：
+| 事件 | 负载 | 含义 |
+|------|------|------|
+| `.agentStatus` | `AgentStatusPayload` | Agent 阶段和提示文案。 |
+| `.sessionContext` | `SessionContextSummary` | 会话上下文摘要。 |
+| `.sessionOpening` | `SessionOpeningPayload` | Agent 开场内容。 |
+| `.ttsStatus` | `TTSStatusPayload` | TTS 播放状态。 |
+| `.childTranscript` | `ChildTranscriptPayload` | 孩子转录文本和发音信息。 |
+| `.turnResult` | `TurnResultPayload` | 旧版 turn 结果聚合。 |
+| `.coachReplyDelta` | `CoachReplyDeltaPayload` | AI 流式回复增量。 |
+| `.coachReply` | `CoachReplyPayload` | AI 完整回复。 |
+| `.sessionSummary` | `SessionSummary` | 会话总结。 |
+| `.agentError` | `AgentErrorPayload` | Agent 错误。 |
+
+多数业务界面只需要消费 `onStateChanged`。`onSignal` 适合日志、调试或需要细粒度事件的高级场景。
+
+### client.onError
 
 ```swift
-do {
-    try await client.startSession(params)
-} catch {
-    print("启动会话失败：\(error.localizedDescription)")
+client.onError = { message in
+    Task { @MainActor in
+        showToast(message)
+    }
 }
 ```
 
-### 5. 日志记录
+| 事件 | 含义 |
+|------|------|
+| `onError` | 一次性错误事件，可用于 toast、错误弹窗或日志。 |
 
-在生产环境中启用详细日志：
+## 数据模型参考
+
+### SessionRecord
+
+`SessionRecord` 是客户后端 / NewType backend 返回的会话记录。`startSession()` 直接返回该对象，SDK 后续也会根据会话更新状态。
 
 ```swift
-// 在应用启动时
-NewTypeSDK.setLogLevel(.debug)
+public struct SessionRecord: Sendable, Codable, Hashable {
+    public let sessionId: String
+    public let roomName: String?
+    public let customerId: String?
+    public let productId: String?
+    public let externalUserId: String?
+    public let externalSessionId: String?
+    public let status: SessionStatus
+    public let createdAt: String
+    public let updatedAt: String
+    public let endedAt: String?
+    public let childName: String?
+    public let age: String?
+    public let grade: String?
+    public let topic: String
+    public let interests: [String]
+    public let turns: [SessionTurn]
+    public let summary: SessionSummary?
+    public let profileMemory: ProfileMemorySnapshot?
+    public let sessionMemory: SessionMemorySnapshot?
+    public let agentMemory: AgentMemorySnapshot?
+}
 ```
 
----
+| 字段 | 类型 | 含义 |
+|------|------|------|
+| `sessionId` | `String` | 会话 ID。 |
+| `roomName` | `String?` | 媒体房间名称。 |
+| `customerId` | `String?` | 客户 ID。 |
+| `productId` | `String?` | 产品 ID。 |
+| `externalUserId` | `String?` | 客户侧映射后的用户 ID。 |
+| `externalSessionId` | `String?` | 客户侧会话 ID。 |
+| `status` | `SessionStatus` | `.active` 或 `.ended`。 |
+| `createdAt` / `updatedAt` / `endedAt` | `String` / `String?` | 会话时间字段。 |
+| `childName` / `age` / `grade` | `String?` | 孩子基础信息。 |
+| `topic` | `String` | 产品/会话主题。 |
+| `interests` | `[String]` | 兴趣标签。 |
+| `turns` | `[SessionTurn]` | 历史 turn。 |
+| `summary` | `SessionSummary?` | 总结。 |
+| `profileMemory` | `ProfileMemorySnapshot?` | 用户画像记忆。 |
+| `sessionMemory` | `SessionMemorySnapshot?` | 学习记忆。 |
+| `agentMemory` | `AgentMemorySnapshot?` | Agent 配置快照。 |
+
+### SessionTurn
+
+| 字段 | 类型 | 含义 |
+|------|------|------|
+| `id` | `String` | turn ID。 |
+| `speaker` | `TranscriptSpeaker` | `.child` 或 `.ai`。 |
+| `text` | `String` | turn 文本。 |
+| `language` | `TurnLanguage` | `.en` / `.zh` / `.mixed` / `.unknown`。 |
+| `createdAt` | `String` | 创建时间。 |
+| `asr` | `TurnAsr?` | ASR 结果。 |
+| `pronunciation` | `TurnPronunciation?` | 发音分析。 |
+| `audioPath` | `String?` | 服务端归档音频路径。 |
+
+### 记忆模型
+
+| 类型 | 含义 |
+|------|------|
+| `ProfileMemorySnapshot` | 用户画像记忆，包含 `childName`、`age`、`grade`、`interests`、`preferredTopic`。 |
+| `SessionMemorySnapshot` | 会话学习记忆，包含学习点、信号、临时记忆和 planner 信息。 |
+| `SessionLearningMemory` | 语法/表达问题、学到的句子、复习候选和下次话题建议。 |
+| `AgentMemorySnapshot` | Agent 人设、教学原则、纠错风格和语言策略。 |
+
+## Demo 工程说明
+
+`newtypesdk_demo_ios` 已经按当前推荐链路实现完整流程：
+
+| 路径 | 作用 |
+|------|------|
+| `Podfile` | 引入 `NewTypeSDK` 二进制 pod。 |
+| `libs/NewTypeSDK-Binary.podspec` | 声明 XCFramework 和 LiveKit 依赖。 |
+| `libs/NewTypeSDK.xcframework` | SDK 二进制文件。 |
+| `Features/RTC/DemoViewModel.swift` | 登录、建会话、VAD、状态绑定的核心示例。 |
+| `UI/ContentView.swift` | SwiftUI 演示界面。 |
+| `App/NewTypeDemoApp.swift` | App 入口。 |
+
+Demo 默认值：
+
+| 配置 | 默认值 | 说明 |
+|------|--------|------|
+| Customer Backend URL | `http://localhost:8090` | 模拟器可访问本机；真机需改成局域网 IP。 |
+| Email | `demo@example.com` | demo 登录账号。 |
+| Password | `demo-password-change-me` | demo 登录密码。 |
+| Product / Topic | `speaking` | 与 Web / Android demo 对齐。 |
+| VAD Mode | `.off` | 默认 PTT，界面可切换。 |
+| VAD Preset | `.natural` | 默认自然模式。 |
+
+真机调试时请将 `localhost` 改为后端机器在同一局域网下的 IP，例如 `http://192.168.0.12:8090`。
 
 ## 常见问题
 
-### Q1: SDK 支持模拟器吗？
+### 连接客户后端失败
 
-**A:** 支持。XCFramework 包含 arm64（真机）和 x86_64/arm64（模拟器）架构。
+检查：
 
-### Q2: 如何调试 SDK 问题？
+1. `backendBaseUrl` 是否指向客户后端，例如 `http://192.168.0.12:8090`。
+2. 真机和后端机器是否在同一局域网。
+3. 客户后端是否监听 `0.0.0.0:8090`，而不是只监听 `localhost`。
+4. iOS 是否允许 HTTP 明文流量，`Info.plist` 是否配置 ATS 例外。
+5. 手机 Safari 是否能打开客户后端健康检查地址。
+6. 如果使用模拟器访问本机服务，`http://localhost:8090` 通常可用；真机不可用。
 
-**A:** 启用 SDK 日志并查看控制台输出：
+### 登录成功但 startSession 失败
+
+检查：
+
+1. 是否使用 `login.authorizationHeaderValue` 创建了 `AuthHeaderProvider`。
+2. `NewTypeConfig.sessionPath` 是否为客户后端路径 `/app/sessions`。
+3. `NewTypeConfig.tokenPath` 是否为 `/app/sessions/{sessionId}/livekit-token`。
+4. `liveKitTokenMode` 是否与后端一致，当前 demo 推荐 `.userTokenInBody`。
+5. customer JWT 是否过期。
+
+### Join 后没有声音或没有转录
+
+检查：
+
+1. 麦克风权限是否授予。
+2. `state.micReady` 是否为 `true`。
+3. `state.participantCount` 是否大于 1，表示 Agent 已入房。
+4. `state.agentMessage` 或 `state.errorMessage` 是否有错误提示。
+5. VAD 模式是否符合预期。PTT 模式需要按住按钮调用 `startSpeaking()` / `stopSpeaking()`。
+6. 真机静音开关、音量和蓝牙耳机路由是否影响播放。
+
+### VAD 不触发或太敏感
+
+建议：
+
+1. 安静环境下可切换到 `.sensitive`。
+2. 儿童语音和停顿较多时可切换到 `.child`。
+3. 噪声环境可使用 `.semiAuto`，由用户手动开始/结束一轮。
+4. 高级场景使用 `setVadOptions(...)` 调整阈值和静音时长。
+
+### Topic 应该填什么
+
+`topic` 是产品/场景标识。若与 Web 和 Android demo 对齐，建议填 `speaking`。之后有别的产品，就填对应的产品 ID。
+
+### 生产环境是否可以在 App 中使用 email/password 登录
+
+可以用于 demo 或内部测试，但生产不推荐让 SDK 直接持有业务登录密码。生产建议由业务 App 自己完成登录，然后将 customer JWT 传给 SDK：
+
 ```swift
-// 查看 [MainActivity] 前缀的日志
+let provider = AnyAuthHeaderProvider {
+    customerJwtAuthorizationHeader
+}
+
+let client = NewTypeSessionClient.create(
+    config: config,
+    authHeaderProvider: provider
+)
 ```
 
-### Q3: VAD 不灵敏怎么办？
+### 为什么不配置 LiveKit URL
 
-**A:** 尝试以下方法：
-1. 切换到 `.sensitive` preset
-2. 降低 threshold 值
-3. 减少 minSpeechMs 时长
+当前推荐链路中，媒体服务器 URL 和 token 必须由客户后端按 session 下发。这样可以让后端统一控制房间、权限、过期时间和环境切换，App 只需要配置客户后端地址。
 
-### Q4: 如何确认 Agent 已入房？
+### 模拟器支持吗
 
-**A:** 观察 `state.participantCount > 1` 或 `state.agentPhase == .joined`
+支持。`NewTypeSDK.xcframework` 包含真机 arm64 和模拟器 arm64 / x86_64 slice。实际录音、扬声器和网络表现仍建议用真机验证。
 
-### Q5: Transcript 为空怎么办？
+## 最佳实践
 
-**A:** 检查：
-1. 麦克风权限是否已授权
-2. `state.micReady` 是否为 true
-3. 网络连接是否正常
+1. 在 `@MainActor` ViewModel 中持有 `NewTypeSessionClient`，避免跨线程更新 SwiftUI 状态。
+2. 业务 App 负责登录和 token 刷新，SDK 通过 `AuthHeaderProvider` 读取最新 Authorization。
+3. 页面消失或对象销毁时调用 `close()`，防止麦克风和房间资源泄漏。
+4. UI 渲染优先使用 `onStateChanged` 的聚合状态，日志和高级调试再使用 `onSignal`。
+5. `childName`、`age`、`grade`、`topic` 在调用 `startSession()` 前做 trim 和非空校验。
+6. 真机 HTTP 调试只在开发环境打开 ATS 明文流量例外，生产使用 HTTPS。
 
-### Q6: 如何切换后端环境？
+## 版本信息
 
-**A:** 修改 `NewTypeConfig` 的 `backendBaseUrl`：
-```swift
-// 开发环境
-let config = NewTypeConfig(
-    backendBaseUrl: try EndpointUrl.parse("https://dev.newtype.squady.app:11000"),
-    ...
-)
-
-// 生产环境
-let config = NewTypeConfig(
-    backendBaseUrl: try EndpointUrl.parse("https://newtype.squady.app:11000"),
-    ...
-)
-```
-
----
-
-## 版本历史
-
-| 版本 | 日期 | 说明 |
-|------|------|------|
-| 0.1.0 | 2025-05 | 初始版本，包含核心会话管理和 VAD 控制 |
-
----
-
-## 联系支持
-
-如有问题，请联系：dev@squady.app
+- SDK 版本：0.1.0
+- 文档更新日期：2026-05-19
