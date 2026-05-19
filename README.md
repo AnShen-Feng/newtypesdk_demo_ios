@@ -1,6 +1,6 @@
 # NewType iOS Demo
 
-本工程用于演示 NewType iOS SDK 的使用，SDK 以 XCFramework 二进制文件形式集成，不暴露源码。
+本工程用于演示 NewType iOS SDK 的使用，SDK 以 XCFramework 二进制文件形式集成，不暴露源码。最低支持 iOS 13.4。
 
 ## 目录说明
 

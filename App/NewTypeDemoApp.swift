@@ -1,22 +1,16 @@
-//
-//  NewTypeDemoApp.swift
-//  NewTypeDemo
-//
-//  NewType iOS SDK Demo 应用入口文件
-//  该文件使用 @main 属性标记整个应用的入口点
-//
+// Relative path: newtypesdk_demo_ios/App/NewTypeDemoApp.swift
 
 import SwiftUI
+import UIKit
 
-/// 应用主入口结构体
-/// 使用 SwiftUI 的 @main 属性自动注册为应用程序入口
-@main
-struct NewTypeDemoApp: App {
-    /// 应用的主场景
-    /// 返回一个 WindowGroup，其中包含 ContentView 作为根视图
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+@UIApplicationMain
+final class NewTypeDemoApp: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+
+    func applicationDidFinishLaunching(_ application: UIApplication) {
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = UIHostingController(rootView: ContentView(viewModel: DemoViewModel()))
+        window.makeKeyAndVisible()
+        self.window = window
     }
 }

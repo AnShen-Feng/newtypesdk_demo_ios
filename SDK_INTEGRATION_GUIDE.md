@@ -28,7 +28,7 @@
 
 | 项目 | 要求 |
 |------|------|
-| iOS 版本 | iOS 15.0+ |
+| iOS 版本 | iOS 13.4+ |
 | Swift 版本 | Swift 5.9+ |
 | Xcode 版本 | Xcode 15.0+ |
 | 架构支持 | arm64 (真机), x86_64/arm64 (模拟器) |
@@ -72,7 +72,7 @@ Provides session management, VAD control, and transcript streaming.
   s.homepage = "https://github.com/squady/newtype"
   s.license = { :type => "MIT", :text => "Internal use only" }
   s.author = { "Squady" => "dev@squady.app" }
-  s.platform = :ios, "15.0"
+  s.platform = :ios, "13.4"
   s.swift_versions = ["5.9"]
   s.source = { :path => "." }
   s.vendored_frameworks = "NewTypeSDK.xcframework"
@@ -93,7 +93,7 @@ end
 source "https://cdn.cocoapods.org/"
 source "https://github.com/livekit/podspecs.git"
 
-platform :ios, "15.0"
+platform :ios, "13.4"
 
 use_frameworks! :linkage => :static
 

@@ -1,7 +1,7 @@
 source "https://cdn.cocoapods.org/"
 source "https://github.com/livekit/podspecs.git"
 
-platform :ios, "15.0"
+platform :ios, "13.4"
 
 use_frameworks! :linkage => :static
 
