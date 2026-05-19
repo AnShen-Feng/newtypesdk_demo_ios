@@ -58,7 +58,7 @@ Package.resolved
 ## Build artifacts
 *.o
 *.a
-*.framework
+# *.framework
 dist/
 artifacts/
 artifacts-dynamic/
@@ -67,9 +67,9 @@ manual-binary/
 
 ## SDK binary files
 ## Ignore generic xcframeworks, but keep the demo SDK binary vendored in libs/.
-*.xcframework
-!libs/NewTypeSDK.xcframework/
-!libs/NewTypeSDK.xcframework/**
+# *.xcframework
+# !libs/NewTypeSDK.xcframework/
+# !libs/NewTypeSDK.xcframework/**
 
 ## Logs
 *.log
