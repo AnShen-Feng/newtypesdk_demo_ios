@@ -42,26 +42,8 @@ public struct AnyAuthHeaderProvider : NewTypeSDK.AuthHeaderProvider {
   #endif
 }
 public struct NewTypeConfig : Swift.Sendable {
-  public enum LiveKitTokenMode : Swift.Sendable, Swift.Hashable {
-    case userTokenAuthorization
-    case userTokenInBody
-    case serviceAuthorization
-    public static func == (a: NewTypeSDK.NewTypeConfig.LiveKitTokenMode, b: NewTypeSDK.NewTypeConfig.LiveKitTokenMode) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
-  }
-  public let backendBaseUrl: NewTypeSDK.EndpointUrl
-  public let sessionPath: Swift.String
-  public let tokenPath: Swift.String
-  public let liveKitTokenMode: NewTypeSDK.NewTypeConfig.LiveKitTokenMode
   public let summaryFallbackTimeoutMs: Swift.UInt64
-  public init(backendBaseUrl: NewTypeSDK.EndpointUrl, sessionPath: Swift.String = "/api/sessions", tokenPath: Swift.String = "/api/livekit/token", liveKitTokenMode: NewTypeSDK.NewTypeConfig.LiveKitTokenMode = .userTokenAuthorization, summaryFallbackTimeoutMs: Swift.UInt64 = 20_000)
-}
-public enum NewTypeNetworkError : Swift.Error {
-  case invalidResponse
-  case httpStatus(code: Swift.Int, body: Swift.String)
+  public init(summaryFallbackTimeoutMs: Swift.UInt64 = 20_000)
 }
 public enum SessionStatus : Swift.String, Swift.Sendable, Swift.Codable {
   case active
@@ -409,6 +391,24 @@ public struct LiveKitTokenResponse : Swift.Sendable, Swift.Codable, Swift.Hashab
   }
   public init(from decoder: any Swift.Decoder) throws
 }
+public struct NewTypeConnectionCredential : Swift.Sendable, Swift.Codable, Swift.Hashable {
+  public let sessionId: Swift.String
+  public let roomName: Swift.String
+  public let connectionUrl: Swift.String
+  public let connectionToken: Swift.String
+  public let identity: Swift.String
+  public let expiresIn: Swift.Int?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(sessionId: Swift.String, roomName: Swift.String, connectionUrl: Swift.String, connectionToken: Swift.String, identity: Swift.String, expiresIn: Swift.Int? = nil)
+  #endif
+  public static func == (a: NewTypeSDK.NewTypeConnectionCredential, b: NewTypeSDK.NewTypeConnectionCredential) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
 public struct StartSessionParams : Swift.Sendable, Swift.Hashable {
   public let appUserId: Swift.String?
   public let externalUserId: Swift.String?
@@ -559,13 +559,8 @@ public enum JSONValue : Swift.Sendable, Swift.Codable, Swift.Hashable {
   @_Concurrency.MainActor final public var onStateChanged: NewTypeSDK.NewTypeSessionClient.StateHandler?
   @_Concurrency.MainActor final public var onSignal: NewTypeSDK.NewTypeSessionClient.SignalHandler?
   @_Concurrency.MainActor final public var onError: NewTypeSDK.NewTypeSessionClient.ErrorHandler?
-  #if compiler(>=5.3) && $NonescapableTypes
-  @_Concurrency.MainActor public static func create(config: NewTypeSDK.NewTypeConfig, authHeaderProvider: (any NewTypeSDK.AuthHeaderProvider)? = nil, urlSession: Foundation.URLSession = .shared) -> NewTypeSDK.NewTypeSessionClient
-  #endif
-  @discardableResult
-  @_Concurrency.MainActor final public func login(_ params: NewTypeSDK.CustomerLoginParams) async throws -> NewTypeSDK.CustomerLoginResponse
-  @discardableResult
-  @_Concurrency.MainActor final public func startSession(_ params: NewTypeSDK.StartSessionParams) async throws -> NewTypeSDK.SessionRecord
+  @_Concurrency.MainActor public static func create(config: NewTypeSDK.NewTypeConfig = NewTypeConfig()) -> NewTypeSDK.NewTypeSessionClient
+  @_Concurrency.MainActor final public func connect(_ credential: NewTypeSDK.NewTypeConnectionCredential) async throws
   @_Concurrency.MainActor final public func startTurn(source: NewTypeSDK.TurnSource = .ptt) async throws
   @_Concurrency.MainActor final public func stopTurn(source: NewTypeSDK.TurnSource = .ptt) async throws
   @_Concurrency.MainActor final public func startSpeaking() async throws
@@ -585,16 +580,12 @@ public enum JSONValue : Swift.Sendable, Swift.Codable, Swift.Hashable {
   public enum ClientError : Foundation.LocalizedError {
     case inactiveSession
     case closed
+    case invalidCredential(Swift.String)
     #if compiler(>=5.3) && $NonescapableTypes
     public var errorDescription: Swift.String? {
       get
     }
     #endif
-    public static func == (a: NewTypeSDK.NewTypeSessionClient.ClientError, b: NewTypeSDK.NewTypeSessionClient.ClientError) -> Swift.Bool
-    public func hash(into hasher: inout Swift.Hasher)
-    public var hashValue: Swift.Int {
-      get
-    }
   }
   @objc deinit
 }
@@ -975,8 +966,6 @@ extension NewTypeSDK.TranscriptSpeaker : Swift.Hashable {}
 extension NewTypeSDK.TranscriptSpeaker : Swift.RawRepresentable {}
 extension NewTypeSDK.TurnLanguage : Swift.RawRepresentable {}
 extension NewTypeSDK.NewTypeSessionClient : Swift.Sendable {}
-extension NewTypeSDK.NewTypeSessionClient.ClientError : Swift.Equatable {}
-extension NewTypeSDK.NewTypeSessionClient.ClientError : Swift.Hashable {}
 extension NewTypeSDK.SignalSource : Swift.Equatable {}
 extension NewTypeSDK.SignalSource : Swift.Hashable {}
 extension NewTypeSDK.SignalSource : Swift.RawRepresentable {}

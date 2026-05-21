@@ -684,447 +684,6 @@
         "printedName": "NewTypeConfig",
         "children": [
           {
-            "kind": "TypeDecl",
-            "name": "LiveKitTokenMode",
-            "printedName": "LiveKitTokenMode",
-            "children": [
-              {
-                "kind": "Var",
-                "name": "userTokenAuthorization",
-                "printedName": "userTokenAuthorization",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(NewTypeSDK.NewTypeConfig.LiveKitTokenMode.Type) -> NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LiveKitTokenMode",
-                        "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                        "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Metatype",
-                        "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode.Type",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "LiveKitTokenMode",
-                            "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                            "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "declKind": "EnumElement",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO04userG13AuthorizationyA2EmF",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO04userG13AuthorizationyA2EmF",
-                "moduleName": "NewTypeSDK"
-              },
-              {
-                "kind": "Var",
-                "name": "userTokenInBody",
-                "printedName": "userTokenInBody",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(NewTypeSDK.NewTypeConfig.LiveKitTokenMode.Type) -> NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LiveKitTokenMode",
-                        "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                        "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Metatype",
-                        "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode.Type",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "LiveKitTokenMode",
-                            "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                            "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "declKind": "EnumElement",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO04userG6InBodyyA2EmF",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO04userG6InBodyyA2EmF",
-                "moduleName": "NewTypeSDK"
-              },
-              {
-                "kind": "Var",
-                "name": "serviceAuthorization",
-                "printedName": "serviceAuthorization",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(NewTypeSDK.NewTypeConfig.LiveKitTokenMode.Type) -> NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "LiveKitTokenMode",
-                        "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                        "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Metatype",
-                        "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode.Type",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "LiveKitTokenMode",
-                            "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                            "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "declKind": "EnumElement",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO20serviceAuthorizationyA2EmF",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO20serviceAuthorizationyA2EmF",
-                "moduleName": "NewTypeSDK"
-              },
-              {
-                "kind": "Function",
-                "name": "==",
-                "printedName": "==(_:_:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Bool",
-                    "printedName": "Swift.Bool",
-                    "usr": "s:Sb"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LiveKitTokenMode",
-                    "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                    "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LiveKitTokenMode",
-                    "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                    "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                  }
-                ],
-                "declKind": "Func",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO2eeoiySbAE_AEtFZ",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO2eeoiySbAE_AEtFZ",
-                "moduleName": "NewTypeSDK",
-                "static": true,
-                "implicit": true,
-                "funcSelfKind": "NonMutating"
-              },
-              {
-                "kind": "Var",
-                "name": "hashValue",
-                "printedName": "hashValue",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Var",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO9hashValueSivp",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO9hashValueSivp",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "accessors": [
-                  {
-                    "kind": "Accessor",
-                    "name": "Get",
-                    "printedName": "Get()",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Int",
-                        "printedName": "Swift.Int",
-                        "usr": "s:Si"
-                      }
-                    ],
-                    "declKind": "Accessor",
-                    "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO9hashValueSivg",
-                    "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO9hashValueSivg",
-                    "moduleName": "NewTypeSDK",
-                    "implicit": true,
-                    "accessorKind": "get"
-                  }
-                ]
-              },
-              {
-                "kind": "Function",
-                "name": "hash",
-                "printedName": "hash(into:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Hasher",
-                    "printedName": "Swift.Hasher",
-                    "paramValueOwnership": "InOut",
-                    "usr": "s:s6HasherV"
-                  }
-                ],
-                "declKind": "Func",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO4hash4intoys6HasherVz_tF",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO4hash4intoys6HasherVz_tF",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "funcSelfKind": "NonMutating"
-              }
-            ],
-            "declKind": "Enum",
-            "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO",
-            "mangledName": "$s10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO",
-            "moduleName": "NewTypeSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "conformances": [
-              {
-                "kind": "Conformance",
-                "name": "Copyable",
-                "printedName": "Copyable",
-                "usr": "s:s8CopyableP",
-                "mangledName": "$ss8CopyableP"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Escapable",
-                "printedName": "Escapable",
-                "usr": "s:s9EscapableP",
-                "mangledName": "$ss9EscapableP"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Equatable",
-                "printedName": "Equatable",
-                "usr": "s:SQ",
-                "mangledName": "$sSQ"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Sendable",
-                "printedName": "Sendable",
-                "usr": "s:s8SendableP",
-                "mangledName": "$ss8SendableP"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Hashable",
-                "printedName": "Hashable",
-                "usr": "s:SH",
-                "mangledName": "$sSH"
-              },
-              {
-                "kind": "Conformance",
-                "name": "SendableMetatype",
-                "printedName": "SendableMetatype",
-                "usr": "s:s16SendableMetatypeP",
-                "mangledName": "$ss16SendableMetatypeP"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "backendBaseUrl",
-            "printedName": "backendBaseUrl",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "EndpointUrl",
-                "printedName": "NewTypeSDK.EndpointUrl",
-                "usr": "s:10NewTypeSDK11EndpointUrlV"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:10NewTypeSDK0aB6ConfigV14backendBaseUrlAA08EndpointG0Vvp",
-            "mangledName": "$s10NewTypeSDK0aB6ConfigV14backendBaseUrlAA08EndpointG0Vvp",
-            "moduleName": "NewTypeSDK",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl"
-            ],
-            "isLet": true,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "EndpointUrl",
-                    "printedName": "NewTypeSDK.EndpointUrl",
-                    "usr": "s:10NewTypeSDK11EndpointUrlV"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:10NewTypeSDK0aB6ConfigV14backendBaseUrlAA08EndpointG0Vvg",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV14backendBaseUrlAA08EndpointG0Vvg",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "sessionPath",
-            "printedName": "sessionPath",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:10NewTypeSDK0aB6ConfigV11sessionPathSSvp",
-            "mangledName": "$s10NewTypeSDK0aB6ConfigV11sessionPathSSvp",
-            "moduleName": "NewTypeSDK",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl"
-            ],
-            "isLet": true,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:10NewTypeSDK0aB6ConfigV11sessionPathSSvg",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV11sessionPathSSvg",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "tokenPath",
-            "printedName": "tokenPath",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:10NewTypeSDK0aB6ConfigV9tokenPathSSvp",
-            "mangledName": "$s10NewTypeSDK0aB6ConfigV9tokenPathSSvp",
-            "moduleName": "NewTypeSDK",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl"
-            ],
-            "isLet": true,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "String",
-                    "printedName": "Swift.String",
-                    "usr": "s:SS"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:10NewTypeSDK0aB6ConfigV9tokenPathSSvg",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV9tokenPathSSvg",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "liveKitTokenMode",
-            "printedName": "liveKitTokenMode",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "LiveKitTokenMode",
-                "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:10NewTypeSDK0aB6ConfigV16liveKitTokenModeAC04LivefgH0Ovp",
-            "mangledName": "$s10NewTypeSDK0aB6ConfigV16liveKitTokenModeAC04LivefgH0Ovp",
-            "moduleName": "NewTypeSDK",
-            "declAttributes": [
-              "HasStorage",
-              "AccessControl"
-            ],
-            "isLet": true,
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "LiveKitTokenMode",
-                    "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                    "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:10NewTypeSDK0aB6ConfigV16liveKitTokenModeAC04LivefgH0Ovg",
-                "mangledName": "$s10NewTypeSDK0aB6ConfigV16liveKitTokenModeAC04LivefgH0Ovg",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          },
-          {
             "kind": "Var",
             "name": "summaryFallbackTimeoutMs",
             "printedName": "summaryFallbackTimeoutMs",
@@ -1171,40 +730,13 @@
           {
             "kind": "Constructor",
             "name": "init",
-            "printedName": "init(backendBaseUrl:sessionPath:tokenPath:liveKitTokenMode:summaryFallbackTimeoutMs:)",
+            "printedName": "init(summaryFallbackTimeoutMs:)",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "NewTypeConfig",
                 "printedName": "NewTypeSDK.NewTypeConfig",
                 "usr": "s:10NewTypeSDK0aB6ConfigV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "EndpointUrl",
-                "printedName": "NewTypeSDK.EndpointUrl",
-                "usr": "s:10NewTypeSDK11EndpointUrlV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "hasDefaultArg": true,
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "hasDefaultArg": true,
-                "usr": "s:SS"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "LiveKitTokenMode",
-                "printedName": "NewTypeSDK.NewTypeConfig.LiveKitTokenMode",
-                "hasDefaultArg": true,
-                "usr": "s:10NewTypeSDK0aB6ConfigV16LiveKitTokenModeO"
               },
               {
                 "kind": "TypeNominal",
@@ -1215,8 +747,8 @@
               }
             ],
             "declKind": "Constructor",
-            "usr": "s:10NewTypeSDK0aB6ConfigV14backendBaseUrl11sessionPath05tokenI016liveKitTokenMode24summaryFallbackTimeoutMsAcA08EndpointG0V_S2SAC04LivelmN0Os6UInt64Vtcfc",
-            "mangledName": "$s10NewTypeSDK0aB6ConfigV14backendBaseUrl11sessionPath05tokenI016liveKitTokenMode24summaryFallbackTimeoutMsAcA08EndpointG0V_S2SAC04LivelmN0Os6UInt64Vtcfc",
+            "usr": "s:10NewTypeSDK0aB6ConfigV24summaryFallbackTimeoutMsACs6UInt64V_tcfc",
+            "mangledName": "$s10NewTypeSDK0aB6ConfigV24summaryFallbackTimeoutMsACs6UInt64V_tcfc",
             "moduleName": "NewTypeSDK",
             "declAttributes": [
               "AccessControl"
@@ -1270,167 +802,6 @@
         "moduleName": "NewTypeSDK",
         "declAttributes": [
           "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "NewTypeSDK",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "NewTypeNetworkError",
-        "printedName": "NewTypeNetworkError",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "invalidResponse",
-            "printedName": "invalidResponse",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NewTypeSDK.NewTypeNetworkError.Type) -> NewTypeSDK.NewTypeNetworkError",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "NewTypeNetworkError",
-                    "printedName": "NewTypeSDK.NewTypeNetworkError",
-                    "usr": "s:10NewTypeSDK0aB12NetworkErrorO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NewTypeSDK.NewTypeNetworkError.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "NewTypeNetworkError",
-                        "printedName": "NewTypeSDK.NewTypeNetworkError",
-                        "usr": "s:10NewTypeSDK0aB12NetworkErrorO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:10NewTypeSDK0aB12NetworkErrorO15invalidResponseyA2CmF",
-            "mangledName": "$s10NewTypeSDK0aB12NetworkErrorO15invalidResponseyA2CmF",
-            "moduleName": "NewTypeSDK"
-          },
-          {
-            "kind": "Var",
-            "name": "httpStatus",
-            "printedName": "httpStatus",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(NewTypeSDK.NewTypeNetworkError.Type) -> (Swift.Int, Swift.String) -> NewTypeSDK.NewTypeNetworkError",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(Swift.Int, Swift.String) -> NewTypeSDK.NewTypeNetworkError",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "NewTypeNetworkError",
-                        "printedName": "NewTypeSDK.NewTypeNetworkError",
-                        "usr": "s:10NewTypeSDK0aB12NetworkErrorO"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Tuple",
-                        "printedName": "(code: Swift.Int, body: Swift.String)",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Int",
-                            "printedName": "Swift.Int",
-                            "usr": "s:Si"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "String",
-                            "printedName": "Swift.String",
-                            "usr": "s:SS"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "NewTypeSDK.NewTypeNetworkError.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "NewTypeNetworkError",
-                        "printedName": "NewTypeSDK.NewTypeNetworkError",
-                        "usr": "s:10NewTypeSDK0aB12NetworkErrorO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:10NewTypeSDK0aB12NetworkErrorO10httpStatusyACSi_SStcACmF",
-            "mangledName": "$s10NewTypeSDK0aB12NetworkErrorO10httpStatusyACSi_SStcACmF",
-            "moduleName": "NewTypeSDK"
-          }
-        ],
-        "declKind": "Enum",
-        "usr": "s:10NewTypeSDK0aB12NetworkErrorO",
-        "mangledName": "$s10NewTypeSDK0aB12NetworkErrorO",
-        "moduleName": "NewTypeSDK",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Copyable",
-            "printedName": "Copyable",
-            "usr": "s:s8CopyableP",
-            "mangledName": "$ss8CopyableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Escapable",
-            "printedName": "Escapable",
-            "usr": "s:s9EscapableP",
-            "mangledName": "$ss9EscapableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Error",
-            "printedName": "Error",
-            "usr": "s:s5ErrorP",
-            "mangledName": "$ss5ErrorP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Sendable",
-            "printedName": "Sendable",
-            "usr": "s:s8SendableP",
-            "mangledName": "$ss8SendableP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "SendableMetatype",
-            "printedName": "SendableMetatype",
-            "usr": "s:s16SendableMetatypeP",
-            "mangledName": "$ss16SendableMetatypeP"
-          }
         ]
       },
       {
@@ -12525,6 +11896,571 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "NewTypeConnectionCredential",
+        "printedName": "NewTypeConnectionCredential",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "sessionId",
+            "printedName": "sessionId",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9sessionIdSSvp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9sessionIdSSvp",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9sessionIdSSvg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9sessionIdSSvg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "roomName",
+            "printedName": "roomName",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV8roomNameSSvp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV8roomNameSSvp",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV8roomNameSSvg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV8roomNameSSvg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "connectionUrl",
+            "printedName": "connectionUrl",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV13connectionUrlSSvp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV13connectionUrlSSvp",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV13connectionUrlSSvg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV13connectionUrlSSvg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "connectionToken",
+            "printedName": "connectionToken",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV15connectionTokenSSvp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV15connectionTokenSSvp",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV15connectionTokenSSvg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV15connectionTokenSSvg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "identity",
+            "printedName": "identity",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV8identitySSvp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV8identitySSvp",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV8identitySSvg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV8identitySSvg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "expiresIn",
+            "printedName": "expiresIn",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9expiresInSiSgvp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9expiresInSiSgvp",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.Int?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9expiresInSiSgvg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9expiresInSiSgvg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(sessionId:roomName:connectionUrl:connectionToken:identity:expiresIn:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NewTypeConnectionCredential",
+                "printedName": "NewTypeSDK.NewTypeConnectionCredential",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Swift.Int?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9sessionId8roomName13connectionUrl0J5Token8identity9expiresInACSS_S4SSiSgtcfc",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9sessionId8roomName13connectionUrl0J5Token8identity9expiresInACSS_S4SSiSgtcfc",
+            "moduleName": "NewTypeSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(from:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "NewTypeConnectionCredential",
+                "printedName": "NewTypeSDK.NewTypeConnectionCredential",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Decoder",
+                "printedName": "any Swift.Decoder",
+                "usr": "s:s7DecoderP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV4fromACs7Decoder_p_tKcfc",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV4fromACs7Decoder_p_tKcfc",
+            "moduleName": "NewTypeSDK",
+            "implicit": true,
+            "throwing": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "encode",
+            "printedName": "encode(to:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Encoder",
+                "printedName": "any Swift.Encoder",
+                "usr": "s:s7EncoderP"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV6encode2toys7Encoder_p_tKF",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV6encode2toys7Encoder_p_tKF",
+            "moduleName": "NewTypeSDK",
+            "implicit": true,
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9hashValueSivp",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9hashValueSivp",
+            "moduleName": "NewTypeSDK",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV9hashValueSivg",
+                "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV9hashValueSivg",
+                "moduleName": "NewTypeSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV4hash4intoys6HasherVz_tF",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV4hash4intoys6HasherVz_tF",
+            "moduleName": "NewTypeSDK",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NewTypeConnectionCredential",
+                "printedName": "NewTypeSDK.NewTypeConnectionCredential",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NewTypeConnectionCredential",
+                "printedName": "NewTypeSDK.NewTypeConnectionCredential",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV2eeoiySbAC_ACtFZ",
+            "moduleName": "NewTypeSDK",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV",
+        "mangledName": "$s10NewTypeSDK0aB20ConnectionCredentialV",
+        "moduleName": "NewTypeSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Decodable",
+            "printedName": "Decodable",
+            "usr": "s:Se",
+            "mangledName": "$sSe"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Encodable",
+            "printedName": "Encodable",
+            "usr": "s:SE",
+            "mangledName": "$sSE"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
         "name": "StartSessionParams",
         "printedName": "StartSessionParams",
         "children": [
@@ -17850,7 +17786,7 @@
           {
             "kind": "Function",
             "name": "create",
-            "printedName": "create(config:authHeaderProvider:urlSession:)",
+            "printedName": "create(config:)",
             "children": [
               {
                 "kind": "TypeNominal",
@@ -17862,34 +17798,13 @@
                 "kind": "TypeNominal",
                 "name": "NewTypeConfig",
                 "printedName": "NewTypeSDK.NewTypeConfig",
+                "hasDefaultArg": true,
                 "usr": "s:10NewTypeSDK0aB6ConfigV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "(any NewTypeSDK.AuthHeaderProvider)?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "AuthHeaderProvider",
-                    "printedName": "any NewTypeSDK.AuthHeaderProvider",
-                    "usr": "s:10NewTypeSDK18AuthHeaderProviderP"
-                  }
-                ],
-                "hasDefaultArg": true,
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "URLSession",
-                "printedName": "Foundation.URLSession",
-                "hasDefaultArg": true,
-                "usr": "c:objc(cs)NSURLSession"
               }
             ],
             "declKind": "Func",
-            "usr": "s:10NewTypeSDK0aB13SessionClientC6create6config18authHeaderProvider03urlD0AcA0aB6ConfigV_AA04AuthiJ0_pSgSo12NSURLSessionCtFZ",
-            "mangledName": "$s10NewTypeSDK0aB13SessionClientC6create6config18authHeaderProvider03urlD0AcA0aB6ConfigV_AA04AuthiJ0_pSgSo12NSURLSessionCtFZ",
+            "usr": "s:10NewTypeSDK0aB13SessionClientC6create6configAcA0aB6ConfigV_tFZ",
+            "mangledName": "$s10NewTypeSDK0aB13SessionClientC6create6configAcA0aB6ConfigV_tFZ",
             "moduleName": "NewTypeSDK",
             "static": true,
             "declAttributes": [
@@ -17901,62 +17816,29 @@
           },
           {
             "kind": "Function",
-            "name": "login",
-            "printedName": "login(_:)",
+            "name": "connect",
+            "printedName": "connect(_:)",
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "CustomerLoginResponse",
-                "printedName": "NewTypeSDK.CustomerLoginResponse",
-                "usr": "s:10NewTypeSDK21CustomerLoginResponseV"
+                "name": "Void",
+                "printedName": "()"
               },
               {
                 "kind": "TypeNominal",
-                "name": "CustomerLoginParams",
-                "printedName": "NewTypeSDK.CustomerLoginParams",
-                "usr": "s:10NewTypeSDK19CustomerLoginParamsV"
+                "name": "NewTypeConnectionCredential",
+                "printedName": "NewTypeSDK.NewTypeConnectionCredential",
+                "usr": "s:10NewTypeSDK0aB20ConnectionCredentialV"
               }
             ],
             "declKind": "Func",
-            "usr": "s:10NewTypeSDK0aB13SessionClientC5loginyAA21CustomerLoginResponseVAA0gH6ParamsVYaKF",
-            "mangledName": "$s10NewTypeSDK0aB13SessionClientC5loginyAA21CustomerLoginResponseVAA0gH6ParamsVYaKF",
+            "usr": "s:10NewTypeSDK0aB13SessionClientC7connectyyAA0aB20ConnectionCredentialVYaKF",
+            "mangledName": "$s10NewTypeSDK0aB13SessionClientC7connectyyAA0aB20ConnectionCredentialVYaKF",
             "moduleName": "NewTypeSDK",
             "declAttributes": [
               "Custom",
               "Final",
-              "AccessControl",
-              "DiscardableResult"
-            ],
-            "throwing": true,
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "startSession",
-            "printedName": "startSession(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "SessionRecord",
-                "printedName": "NewTypeSDK.SessionRecord",
-                "usr": "s:10NewTypeSDK13SessionRecordV"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "StartSessionParams",
-                "printedName": "NewTypeSDK.StartSessionParams",
-                "usr": "s:10NewTypeSDK18StartSessionParamsV"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:10NewTypeSDK0aB13SessionClientC05startD0yAA0D6RecordVAA05StartD6ParamsVYaKF",
-            "mangledName": "$s10NewTypeSDK0aB13SessionClientC05startD0yAA0D6RecordVAA05StartD6ParamsVYaKF",
-            "moduleName": "NewTypeSDK",
-            "declAttributes": [
-              "Custom",
-              "Final",
-              "AccessControl",
-              "DiscardableResult"
+              "AccessControl"
             ],
             "throwing": true,
             "funcSelfKind": "NonMutating"
@@ -18420,6 +18302,56 @@
               },
               {
                 "kind": "Var",
+                "name": "invalidCredential",
+                "printedName": "invalidCredential",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(NewTypeSDK.NewTypeSessionClient.ClientError.Type) -> (Swift.String) -> NewTypeSDK.NewTypeSessionClient.ClientError",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.String) -> NewTypeSDK.NewTypeSessionClient.ClientError",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "ClientError",
+                            "printedName": "NewTypeSDK.NewTypeSessionClient.ClientError",
+                            "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "NewTypeSDK.NewTypeSessionClient.ClientError.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "ClientError",
+                            "printedName": "NewTypeSDK.NewTypeSessionClient.ClientError",
+                            "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO17invalidCredentialyAESScAEmF",
+                "mangledName": "$s10NewTypeSDK0aB13SessionClientC0E5ErrorO17invalidCredentialyAESScAEmF",
+                "moduleName": "NewTypeSDK"
+              },
+              {
+                "kind": "Var",
                 "name": "errorDescription",
                 "printedName": "errorDescription",
                 "children": [
@@ -18473,102 +18405,6 @@
                     "accessorKind": "get"
                   }
                 ]
-              },
-              {
-                "kind": "Function",
-                "name": "==",
-                "printedName": "==(_:_:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Bool",
-                    "printedName": "Swift.Bool",
-                    "usr": "s:Sb"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "ClientError",
-                    "printedName": "NewTypeSDK.NewTypeSessionClient.ClientError",
-                    "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "ClientError",
-                    "printedName": "NewTypeSDK.NewTypeSessionClient.ClientError",
-                    "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO"
-                  }
-                ],
-                "declKind": "Func",
-                "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO2eeoiySbAE_AEtFZ",
-                "mangledName": "$s10NewTypeSDK0aB13SessionClientC0E5ErrorO2eeoiySbAE_AEtFZ",
-                "moduleName": "NewTypeSDK",
-                "static": true,
-                "implicit": true,
-                "funcSelfKind": "NonMutating"
-              },
-              {
-                "kind": "Var",
-                "name": "hashValue",
-                "printedName": "hashValue",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Var",
-                "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO9hashValueSivp",
-                "mangledName": "$s10NewTypeSDK0aB13SessionClientC0E5ErrorO9hashValueSivp",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "accessors": [
-                  {
-                    "kind": "Accessor",
-                    "name": "Get",
-                    "printedName": "Get()",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Int",
-                        "printedName": "Swift.Int",
-                        "usr": "s:Si"
-                      }
-                    ],
-                    "declKind": "Accessor",
-                    "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO9hashValueSivg",
-                    "mangledName": "$s10NewTypeSDK0aB13SessionClientC0E5ErrorO9hashValueSivg",
-                    "moduleName": "NewTypeSDK",
-                    "implicit": true,
-                    "accessorKind": "get"
-                  }
-                ]
-              },
-              {
-                "kind": "Function",
-                "name": "hash",
-                "printedName": "hash(into:)",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Hasher",
-                    "printedName": "Swift.Hasher",
-                    "paramValueOwnership": "InOut",
-                    "usr": "s:s6HasherV"
-                  }
-                ],
-                "declKind": "Func",
-                "usr": "s:10NewTypeSDK0aB13SessionClientC0E5ErrorO4hash4intoys6HasherVz_tF",
-                "mangledName": "$s10NewTypeSDK0aB13SessionClientC0E5ErrorO4hash4intoys6HasherVz_tF",
-                "moduleName": "NewTypeSDK",
-                "implicit": true,
-                "funcSelfKind": "NonMutating"
               }
             ],
             "declKind": "Enum",
@@ -18592,20 +18428,6 @@
                 "printedName": "Escapable",
                 "usr": "s:s9EscapableP",
                 "mangledName": "$ss9EscapableP"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Equatable",
-                "printedName": "Equatable",
-                "usr": "s:SQ",
-                "mangledName": "$sSQ"
-              },
-              {
-                "kind": "Conformance",
-                "name": "Hashable",
-                "printedName": "Hashable",
-                "usr": "s:SH",
-                "mangledName": "$sSH"
               },
               {
                 "kind": "Conformance",
@@ -28860,22 +28682,8 @@
   "ConstValues": [
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeConfig.swift",
-      "kind": "StringLiteral",
-      "offset": 1974,
-      "length": 15,
-      "value": "\"\/api\/sessions\""
-    },
-    {
-      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeConfig.swift",
-      "kind": "StringLiteral",
-      "offset": 2019,
-      "length": 20,
-      "value": "\"\/api\/livekit\/token\""
-    },
-    {
-      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeConfig.swift",
       "kind": "IntegerLiteral",
-      "offset": 2154,
+      "offset": 1619,
       "length": 6,
       "value": "20000"
     },
@@ -28945,35 +28753,35 @@
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeModels.swift",
       "kind": "Array",
-      "offset": 8874,
+      "offset": 9585,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeModels.swift",
       "kind": "BooleanLiteral",
-      "offset": 10730,
+      "offset": 11441,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeSessionClient.swift",
       "kind": "BooleanLiteral",
-      "offset": 931,
+      "offset": 781,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeSessionClient.swift",
       "kind": "BooleanLiteral",
-      "offset": 1032,
+      "offset": 882,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeSessionClient.swift",
       "kind": "StringLiteral",
-      "offset": 6257,
+      "offset": 5242,
       "length": 12,
       "value": "\"user-leave\""
     },

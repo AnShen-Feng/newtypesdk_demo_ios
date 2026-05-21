@@ -24,6 +24,7 @@ final class DemoViewModel: ObservableObject {
 
     private var client: NewTypeSessionClient?
     private var auth: CustomerAuth?
+    private var activeSessionId: String?
     private var latestState = DemoRoomState()
     private var loginBusy = false
     private var isPushToTalkActive = false
@@ -111,24 +112,18 @@ final class DemoViewModel: ObservableObject {
             lastError = ""
             loginBusy = true
             loginText = "正在登录客户后端..."
-            let client = try makeClient(authHeader: nil)
-            let response = try await client.login(
-                CustomerLoginParams(
-                    email: normalized(loginEmail) ?? "",
-                    password: loginPassword
-                )
-            )
+            let backend = try buildCustomerBackendApi()
+            let response = try await backend.login(email: normalized(loginEmail) ?? "", password: loginPassword)
             auth = CustomerAuth(response: response)
             loginText = [
                 "已登录：\(response.user.displayName ?? response.user.email)",
                 "appUserId=\(response.user.appUserId)",
-                "tokenExpiresIn=\(response.expiresIn)s"
+                "tokenExpiresIn=\(response.expiresIn)s",
+                "token=\(response.tokenPreview)"
             ].joined(separator: "\n")
             if let displayName = response.user.displayName, !displayName.isEmpty {
                 childName = displayName
             }
-            self.client = client
-            bind(client: client)
             renderState(latestState)
         } catch {
             auth = nil
@@ -152,22 +147,36 @@ final class DemoViewModel: ObservableObject {
             }
 
             client?.close()
-            let client = try makeClient(authHeader: auth.authorizationHeader)
+            let backend = try buildCustomerBackendApi()
+            let client = NewTypeSessionClient.create(config: NewTypeConfig())
             self.client = client
             client.setVadMode(vadMode)
             client.setVadPreset(vadPreset)
             bind(client: client)
 
             log("join start appUser=\(auth.user.appUserId) child=\(trimmedChildName) mode=\(vadMode.logLabel) preset=\(vadPreset.logLabel)")
-            _ = try await client.startSession(
-                StartSessionParams(
+            let credential = try await backend.startRealtimeSession(
+                customerToken: auth.token,
+                request: StartRealtimeSessionRequest(
                     appUserId: auth.user.appUserId,
                     externalSessionId: blankAsNil(externalSessionId) ?? createLocalExternalSessionId(childName: trimmedChildName),
                     childName: trimmedChildName,
                     age: blankAsNil(age),
                     grade: blankAsNil(grade),
                     topic: blankAsNil(productId) ?? "speaking",
-                    interests: []
+                    interests: [],
+                    identity: trimmedChildName
+                )
+            )
+            activeSessionId = credential.sessionId
+            try await client.connect(
+                .init(
+                    sessionId: credential.sessionId,
+                    roomName: credential.roomName,
+                    connectionUrl: credential.connectionUrl,
+                    connectionToken: credential.connectionToken,
+                    identity: credential.identity,
+                    expiresIn: credential.expiresIn
                 )
             )
         } catch {
@@ -177,9 +186,16 @@ final class DemoViewModel: ObservableObject {
 
     private func leave() async {
         guard let client = client else { return }
+        let sessionId = activeSessionId
+        let auth = auth
         do {
             log("leave requested")
             try await client.endSession(reason: "user-leave")
+            if let sessionId = sessionId, let auth = auth {
+                let backend = try buildCustomerBackendApi()
+                try await backend.endRealtimeSession(customerToken: auth.token, sessionId: sessionId)
+            }
+            activeSessionId = nil
         } catch {
             handleError(error.localizedDescription)
         }
@@ -209,18 +225,9 @@ final class DemoViewModel: ObservableObject {
         }
     }
 
-    private func makeClient(authHeader: String?) throws -> NewTypeSessionClient {
+    private func buildCustomerBackendApi() throws -> CustomerBackendApi {
         let endpoint = try EndpointUrl.parse(apiBaseUrl)
-        let config = NewTypeConfig(
-            backendBaseUrl: endpoint,
-            sessionPath: "/app/sessions",
-            tokenPath: "/app/sessions/{sessionId}/livekit-token",
-            liveKitTokenMode: .userTokenInBody
-        )
-        let authProvider: AuthHeaderProvider? = authHeader.map { header in
-            AnyAuthHeaderProvider { header }
-        }
-        return NewTypeSessionClient.create(config: config, authHeaderProvider: authProvider)
+        return CustomerBackendApi(apiBaseUrl: endpoint)
     }
 
     private func bind(client: NewTypeSessionClient) {
@@ -329,17 +336,279 @@ private struct CustomerAuth: Equatable {
     let token: String
     let tokenType: String
     let expiresIn: Int
-    let user: CustomerUser
+    let user: DemoCustomerUser
 
     var authorizationHeader: String {
         "\(tokenType) \(token)"
     }
 
-    init(response: CustomerLoginResponse) {
+    init(response: DemoCustomerLoginResponse) {
         self.token = response.token
         self.tokenType = response.tokenType
         self.expiresIn = response.expiresIn
         self.user = response.user
+    }
+}
+
+private actor CustomerBackendApi {
+    private let apiBaseUrl: EndpointUrl
+    private let urlSession: URLSession
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
+
+    init(apiBaseUrl: EndpointUrl, urlSession: URLSession = .shared) {
+        self.apiBaseUrl = apiBaseUrl
+        self.urlSession = urlSession
+    }
+
+    func login(email: String, password: String) async throws -> DemoCustomerLoginResponse {
+        try await request(
+            path: "/auth/login",
+            method: "POST",
+            bearerToken: nil,
+            body: CustomerLoginRequest(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password),
+            acceptedStatusCodes: [200, 201],
+            decode: DemoCustomerLoginResponse.self
+        )
+    }
+
+    func startRealtimeSession(
+        customerToken: String,
+        request input: StartRealtimeSessionRequest
+    ) async throws -> RealtimeConnectionCredentialResponse {
+        let sessionResponse: StartRealtimeSessionResponse = try await request(
+            path: "/app/sessions",
+            method: "POST",
+            bearerToken: customerToken,
+            body: input,
+            acceptedStatusCodes: [200, 201],
+            decode: StartRealtimeSessionResponse.self
+        )
+        let credential = if let realtime = sessionResponse.realtime {
+            realtime
+        } else if let livekit = sessionResponse.livekit {
+            livekit
+        } else {
+            try await requestRealtimeCredential(
+                customerToken: customerToken,
+                sessionId: sessionResponse.session.sessionId,
+                userToken: try sessionResponse.requiredUserToken()
+            )
+        }
+        return RealtimeConnectionCredentialResponse(
+            sessionId: sessionResponse.session.sessionId,
+            roomName: credential.roomName.isEmpty ? sessionResponse.session.roomName : credential.roomName,
+            connectionUrl: credential.url,
+            connectionToken: credential.token,
+            identity: credential.identity,
+            expiresIn: credential.expiresIn
+        )
+    }
+
+    func endRealtimeSession(customerToken: String, sessionId: String) async throws {
+        let encodedSessionId = try urlEncoded(sessionId)
+        try await requestVoid(
+            path: "/app/sessions/\(encodedSessionId)/end",
+            method: "POST",
+            bearerToken: customerToken,
+            body: EmptyRequest(),
+            acceptedStatusCodes: [200, 201, 204]
+        )
+    }
+
+    private func requestRealtimeCredential(
+        customerToken: String,
+        sessionId: String,
+        userToken: String
+    ) async throws -> CustomerRealtimeCredentialResponse {
+        let encodedSessionId = try urlEncoded(sessionId)
+        return try await request(
+            path: "/app/sessions/\(encodedSessionId)/livekit-token",
+            method: "POST",
+            bearerToken: customerToken,
+            body: ConnectionCredentialRequest(userToken: userToken),
+            acceptedStatusCodes: [200, 201],
+            decode: CustomerRealtimeCredentialResponse.self
+        )
+    }
+
+    private func request<Response: Decodable, Body: Encodable>(
+        path: String,
+        method: String,
+        bearerToken: String?,
+        body: Body,
+        acceptedStatusCodes: Set<Int>,
+        decode responseType: Response.Type
+    ) async throws -> Response {
+        var request = URLRequest(url: resolve(path: path))
+        request.httpMethod = method
+        request.timeoutInterval = 30
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let bearerToken = nonBlank(bearerToken) {
+            request.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+        }
+        request.httpBody = try encoder.encode(body)
+
+        let (data, response) = try await urlSession.data(for: request)
+        guard let http = response as? HTTPURLResponse else {
+            throw CustomerBackendError.invalidResponse
+        }
+        guard acceptedStatusCodes.contains(http.statusCode) else {
+            let bodyText = String(data: data, encoding: .utf8) ?? ""
+            throw CustomerBackendError.httpStatus(code: http.statusCode, body: bodyText)
+        }
+        return try decoder.decode(responseType, from: data)
+    }
+
+    private func requestVoid<Body: Encodable>(
+        path: String,
+        method: String,
+        bearerToken: String?,
+        body: Body,
+        acceptedStatusCodes: Set<Int>
+    ) async throws {
+        var request = URLRequest(url: resolve(path: path))
+        request.httpMethod = method
+        request.timeoutInterval = 30
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let bearerToken = nonBlank(bearerToken) {
+            request.setValue("Bearer \(bearerToken)", forHTTPHeaderField: "Authorization")
+        }
+        request.httpBody = try encoder.encode(body)
+
+        let (data, response) = try await urlSession.data(for: request)
+        guard let http = response as? HTTPURLResponse else {
+            throw CustomerBackendError.invalidResponse
+        }
+        guard acceptedStatusCodes.contains(http.statusCode) else {
+            let bodyText = String(data: data, encoding: .utf8) ?? ""
+            throw CustomerBackendError.httpStatus(code: http.statusCode, body: bodyText)
+        }
+    }
+
+    private func resolve(path: String) -> URL {
+        let normalizedBase = apiBaseUrl.value.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        let normalizedPath = path.hasPrefix("/") ? path : "/\(path)"
+        return URL(string: "\(normalizedBase)\(normalizedPath)")!
+    }
+
+    private func urlEncoded(_ input: String) throws -> String {
+        guard let encoded = input.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw CustomerBackendError.invalidPathComponent(input)
+        }
+        return encoded
+    }
+
+    private func nonBlank(_ input: String?) -> String? {
+        guard let input = input else { return nil }
+        let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : trimmed
+    }
+}
+
+private struct CustomerLoginRequest: Encodable {
+    let email: String
+    let password: String
+}
+
+private struct DemoCustomerLoginResponse: Decodable, Equatable {
+    let token: String
+    let tokenType: String
+    let expiresIn: Int
+    let user: DemoCustomerUser
+
+    var tokenPreview: String {
+        let head = String(token.prefix(8))
+        let tail = String(token.suffix(6))
+        return token.count <= 18 ? token : "\(head)...\(tail)"
+    }
+}
+
+private struct DemoCustomerUser: Decodable, Equatable {
+    let appUserId: String
+    let email: String
+    let displayName: String?
+    let created: Bool
+}
+
+private struct StartRealtimeSessionRequest: Encodable {
+    let appUserId: String
+    let externalSessionId: String?
+    let childName: String?
+    let age: String?
+    let grade: String?
+    let topic: String
+    let interests: [String]
+    let identity: String
+}
+
+private struct StartRealtimeSessionResponse: Decodable {
+    let session: CustomerSessionRecord
+    let userToken: CustomerUserToken?
+    let livekit: CustomerRealtimeCredentialResponse?
+    let realtime: CustomerRealtimeCredentialResponse?
+
+    func requiredUserToken() throws -> String {
+        guard let token = userToken?.token, !token.isEmpty else {
+            throw CustomerBackendError.missingUserToken
+        }
+        return token
+    }
+}
+
+private struct CustomerSessionRecord: Decodable {
+    let sessionId: String
+    let roomName: String
+}
+
+private struct CustomerUserToken: Decodable {
+    let token: String
+    let tokenType: String
+    let expiresIn: Int
+}
+
+private struct ConnectionCredentialRequest: Encodable {
+    let userToken: String
+}
+
+private struct RealtimeConnectionCredentialResponse {
+    let sessionId: String
+    let roomName: String
+    let connectionUrl: String
+    let connectionToken: String
+    let identity: String
+    let expiresIn: Int?
+}
+
+private struct CustomerRealtimeCredentialResponse: Decodable {
+    let token: String
+    let url: String
+    let identity: String
+    let roomName: String
+    let expiresIn: Int?
+}
+
+private struct EmptyRequest: Encodable {}
+
+private enum CustomerBackendError: LocalizedError {
+    case invalidResponse
+    case httpStatus(code: Int, body: String)
+    case missingUserToken
+    case invalidPathComponent(String)
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidResponse:
+            return "Invalid customer backend response."
+        case .httpStatus(let code, let body):
+            return "HTTP \(code): \(body)"
+        case .missingUserToken:
+            return "Customer backend response missing userToken."
+        case .invalidPathComponent(let value):
+            return "Invalid path component: \(value)"
+        }
     }
 }
 
