@@ -11,16 +11,27 @@
 		A1000001 /* NewTypeDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* NewTypeDemoApp.swift */; };
 		A1000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* ContentView.swift */; };
 		A1000003 /* DemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* DemoViewModel.swift */; };
+		B1000001 /* NewTypeDirectCredentialTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001 /* NewTypeDirectCredentialTestApp.swift */; };
+		B1000002 /* DirectCredentialTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000002 /* DirectCredentialTestView.swift */; };
+		B1000003 /* DirectCredentialTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000003 /* DirectCredentialTestViewModel.swift */; };
+		B3A39FB5127BD1F1331D9EC0 /* Pods_NewTypeCredentialTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48AB56B6E63021348A3F73C2 /* Pods_NewTypeCredentialTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0DDF922D08EDCBD0CFB0F8AE /* Pods-NewTypeDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewTypeDemo.release.xcconfig"; path = "Target Support Files/Pods-NewTypeDemo/Pods-NewTypeDemo.release.xcconfig"; sourceTree = "<group>"; };
 		37DB6D2958C888764FD0FF60 /* Pods-NewTypeDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewTypeDemo.debug.xcconfig"; path = "Target Support Files/Pods-NewTypeDemo/Pods-NewTypeDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		48AB56B6E63021348A3F73C2 /* Pods_NewTypeCredentialTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewTypeCredentialTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AFC6324D34962D2966E5B5E /* Pods-NewTypeCredentialTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewTypeCredentialTest.release.xcconfig"; path = "Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest.release.xcconfig"; sourceTree = "<group>"; };
 		A2000001 /* NewTypeDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTypeDemoApp.swift; sourceTree = "<group>"; };
 		A2000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A2000003 /* DemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewModel.swift; sourceTree = "<group>"; };
 		A3000001 /* NewTypeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTypeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2000001 /* NewTypeDirectCredentialTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTypeDirectCredentialTestApp.swift; sourceTree = "<group>"; };
+		B2000002 /* DirectCredentialTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectCredentialTestView.swift; sourceTree = "<group>"; };
+		B2000003 /* DirectCredentialTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectCredentialTestViewModel.swift; sourceTree = "<group>"; };
+		B3000001 /* NewTypeCredentialTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTypeCredentialTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B634E960ADC738FAEF9B9922 /* Pods_NewTypeDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewTypeDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFAF73198D06F465FD10580F /* Pods-NewTypeCredentialTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewTypeCredentialTest.debug.xcconfig"; path = "Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +43,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B4000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3A39FB5127BD1F1331D9EC0 /* Pods_NewTypeCredentialTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -40,6 +59,8 @@
 			children = (
 				37DB6D2958C888764FD0FF60 /* Pods-NewTypeDemo.debug.xcconfig */,
 				0DDF922D08EDCBD0CFB0F8AE /* Pods-NewTypeDemo.release.xcconfig */,
+				FFAF73198D06F465FD10580F /* Pods-NewTypeCredentialTest.debug.xcconfig */,
+				4AFC6324D34962D2966E5B5E /* Pods-NewTypeCredentialTest.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -48,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				B634E960ADC738FAEF9B9922 /* Pods_NewTypeDemo.framework */,
+				48AB56B6E63021348A3F73C2 /* Pods_NewTypeCredentialTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -69,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				A2000001 /* NewTypeDemoApp.swift */,
+				B2000001 /* NewTypeDirectCredentialTestApp.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -85,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				A2000002 /* ContentView.swift */,
+				B2000002 /* DirectCredentialTestView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -101,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				A3000001 /* NewTypeDemo.app */,
+				B3000001 /* NewTypeCredentialTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -109,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				A2000003 /* DemoViewModel.swift */,
+				B2000003 /* DirectCredentialTestViewModel.swift */,
 			);
 			path = RTC;
 			sourceTree = "<group>";
@@ -143,6 +169,26 @@
 			productReference = A3000001 /* NewTypeDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B6000001 /* NewTypeCredentialTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7000001 /* Build configuration list for PBXNativeTarget "NewTypeCredentialTest" */;
+			buildPhases = (
+				6639C3A62A33D150C347E507 /* [CP] Check Pods Manifest.lock */,
+				B6000002 /* Sources */,
+				B4000001 /* Frameworks */,
+				B6000003 /* Resources */,
+				C3FBB7A9BC2943D9B83D302F /* [CP] Embed Pods Frameworks */,
+				266E7FED86AC2BCB23000159 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NewTypeCredentialTest;
+			productName = NewTypeCredentialTest;
+			productReference = B3000001 /* NewTypeCredentialTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -154,6 +200,9 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					A6000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					B6000001 = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
@@ -172,12 +221,20 @@
 			projectRoot = "";
 			targets = (
 				A6000001 /* NewTypeDemo */,
+				B6000001 /* NewTypeCredentialTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A6000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6000003 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -226,6 +283,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		266E7FED86AC2BCB23000159 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		60A9D9042A399DBE22F73D9F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +317,45 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewTypeDemo/Pods-NewTypeDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6639C3A62A33D150C347E507 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NewTypeCredentialTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C3FBB7A9BC2943D9B83D302F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewTypeCredentialTest/Pods-NewTypeCredentialTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -253,6 +366,16 @@
 				A1000001 /* NewTypeDemoApp.swift in Sources */,
 				A1000002 /* ContentView.swift in Sources */,
 				A1000003 /* DemoViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1000001 /* NewTypeDirectCredentialTestApp.swift in Sources */,
+				B1000002 /* DirectCredentialTestView.swift in Sources */,
+				B1000003 /* DirectCredentialTestViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,11 +517,11 @@
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NewType SDK Demo needs local network access to connect to a development customer backend.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "NewType SDK Demo needs microphone access for realtime speaking sessions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -428,17 +551,85 @@
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NewType SDK Demo needs local network access to connect to a development customer backend.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "NewType SDK Demo needs microphone access for realtime speaking sessions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.squady.NewTypeDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B9000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFAF73198D06F465FD10580F /* Pods-NewTypeCredentialTest.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8BP5TKWU82;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoads = YES;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NewType credential test needs local network access for realtime room connections.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "NewType credential test needs microphone access for realtime speaking sessions.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.squady.NewTypeCredentialTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B9000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AFC6324D34962D2966E5B5E /* Pods-NewTypeCredentialTest.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8BP5TKWU82;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppTransportSecurity_NSAllowsArbitraryLoads = YES;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "NewType credential test needs local network access for realtime room connections.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "NewType credential test needs microphone access for realtime speaking sessions.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.squady.NewTypeCredentialTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.9;
@@ -463,6 +654,15 @@
 			buildConfigurations = (
 				A9000001 /* Debug */,
 				A9000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7000001 /* Build configuration list for PBXNativeTarget "NewTypeCredentialTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B9000003 /* Debug */,
+				B9000004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

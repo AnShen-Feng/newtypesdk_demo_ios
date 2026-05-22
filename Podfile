@@ -8,3 +8,7 @@ use_frameworks! :linkage => :static
 target "NewTypeDemo" do
   pod "NewTypeSDK", :path => "./libs/NewTypeSDK-Binary.podspec"
 end
+
+target "NewTypeCredentialTest" do
+  pod "NewTypeSDK", :path => "./libs/NewTypeSDK-Binary.podspec"
+end
