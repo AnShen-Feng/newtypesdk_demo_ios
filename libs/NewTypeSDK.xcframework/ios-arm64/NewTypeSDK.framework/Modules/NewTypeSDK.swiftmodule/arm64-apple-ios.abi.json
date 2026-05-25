@@ -806,6 +806,16 @@
       },
       {
         "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "NewTypeSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "AVFoundation",
         "printedName": "AVFoundation",
         "declKind": "Import",
@@ -28730,6 +28740,69 @@
       "value": "20000"
     },
     {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "BooleanLiteral",
+      "offset": 265,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "BooleanLiteral",
+      "offset": 300,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "IntegerLiteral",
+      "offset": 341,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "IntegerLiteral",
+      "offset": 379,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "IntegerLiteral",
+      "offset": 420,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "Array",
+      "offset": 463,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeLocalVAD.swift",
+      "kind": "Array",
+      "offset": 506,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeMediaRoom.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6370,
+      "length": 5,
+      "value": "48000"
+    },
+    {
+      "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeMediaRoom.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6412,
+      "length": 1,
+      "value": "1"
+    },
+    {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeModels.swift",
       "kind": "StringLiteral",
       "offset": 285,
@@ -28781,7 +28854,7 @@
     {
       "filePath": "\/Users\/zero\/Documents\/Work\/Squady\/Squady\/newtypesdk_ios\/BinarySources\/NewTypeSessionClient.swift",
       "kind": "StringLiteral",
-      "offset": 5242,
+      "offset": 5604,
       "length": 12,
       "value": "\"user-leave\""
     },
