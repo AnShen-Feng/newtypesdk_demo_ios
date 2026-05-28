@@ -78,6 +78,15 @@ struct DirectCredentialTestView: View {
                     onRelease: { vm.stopSpeakingTapped() }
                 )
 
+                DirectCredentialActionButton(title: "Interrupt", backgroundColor: .orange) {
+                    if isHoldingToTalk {
+                        vm.stopSpeakingTapped()
+                        isHoldingToTalk = false
+                    }
+                    vm.interruptTapped()
+                }
+                .disabled(!vm.canInterrupt)
+
                 DirectCredentialSectionTitle("Status")
                 DirectCredentialOutputBox(text: vm.statusText, monospaced: true, minHeight: 160)
 

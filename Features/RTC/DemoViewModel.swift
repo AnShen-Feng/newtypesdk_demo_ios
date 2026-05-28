@@ -67,6 +67,10 @@ final class DemoViewModel: ObservableObject {
         Task { await stopSpeaking() }
     }
 
+    func interruptTapped() {
+        Task { await interruptCurrentTurn() }
+    }
+
     func vadModeChanged(_ mode: VadMode) {
         vadMode = mode
         client?.setVadMode(mode)
@@ -101,6 +105,10 @@ final class DemoViewModel: ObservableObject {
 
     var canHoldToTalk: Bool {
         latestState.phase == .connected && !latestState.turnBusy && vadMode != .fullAuto
+    }
+
+    var canInterrupt: Bool {
+        latestState.phase == .connected && (latestState.turnBusy || latestState.agentPhase == .opening)
     }
 
     var isLeaving: Bool {
@@ -220,6 +228,17 @@ final class DemoViewModel: ObservableObject {
         do {
             log("ptt stop")
             try await client.stopSpeaking()
+        } catch {
+            handleError(error.localizedDescription)
+        }
+    }
+
+    private func interruptCurrentTurn() async {
+        guard let client = client else { return }
+        do {
+            log("interrupt requested")
+            isPushToTalkActive = false
+            try await client.interrupt(target: .tts, reason: .userCancel)
         } catch {
             handleError(error.localizedDescription)
         }

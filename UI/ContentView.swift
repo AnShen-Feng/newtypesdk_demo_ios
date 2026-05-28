@@ -92,6 +92,15 @@ struct ContentView: View {
                     onRelease: { vm.stopSpeakingTapped() }
                 )
 
+                DemoActionButton(title: "Interrupt", backgroundColor: .orange) {
+                    if isHoldingToTalk {
+                        vm.stopSpeakingTapped()
+                        isHoldingToTalk = false
+                    }
+                    vm.interruptTapped()
+                }
+                .disabled(!vm.canInterrupt)
+
                 DemoSectionTitle("Status")
                 DemoOutputBox(text: vm.statusText, monospaced: true, minHeight: 160)
 

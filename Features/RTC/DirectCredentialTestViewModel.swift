@@ -39,6 +39,15 @@ final class DirectCredentialTestViewModel: ObservableObject {
         latestState.phase == .connected && !latestState.turnBusy && vadMode != .fullAuto
     }
 
+    var canInterrupt: Bool {
+        latestState.phase == .connected &&
+            !latestState.leaveRequested &&
+            latestState.participantCount > 1 &&
+            !latestState.recording &&
+            latestState.agentPhase != .waiting &&
+            latestState.agentPhase != .error
+    }
+
     var isLeaving: Bool {
         latestState.leaveRequested
     }
@@ -61,6 +70,10 @@ final class DirectCredentialTestViewModel: ObservableObject {
         guard isPushToTalkActive || latestState.recording else { return }
         isPushToTalkActive = false
         Task { await stopSpeaking() }
+    }
+
+    func interruptTapped() {
+        Task { await interruptCurrentTurn() }
     }
 
     func vadModeChanged(_ mode: VadMode) {
@@ -131,6 +144,17 @@ final class DirectCredentialTestViewModel: ObservableObject {
         do {
             log("ptt stop")
             try await client.stopSpeaking()
+        } catch {
+            handleError(error.localizedDescription)
+        }
+    }
+
+    private func interruptCurrentTurn() async {
+        guard let client = client else { return }
+        do {
+            log("interrupt requested")
+            isPushToTalkActive = false
+            try await client.interrupt(target: .tts, reason: .userCancel)
         } catch {
             handleError(error.localizedDescription)
         }
