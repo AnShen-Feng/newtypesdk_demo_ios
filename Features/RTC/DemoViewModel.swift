@@ -108,7 +108,10 @@ final class DemoViewModel: ObservableObject {
     }
 
     var canInterrupt: Bool {
-        latestState.phase == .connected && (latestState.turnBusy || latestState.agentPhase == .opening)
+        latestState.phase == .connected &&
+            !latestState.leaveRequested &&
+            !latestState.recording &&
+            (latestState.turnBusy || latestState.agentPhase.isInterruptible)
     }
 
     var isLeaving: Bool {
@@ -283,7 +286,7 @@ final class DemoViewModel: ObservableObject {
         isRecording = state.recording
         statusText = [
             "phase=\(state.phase.logLabel)",
-            "agent=\(state.agentPhase.logLabel) \(state.agentMessage)",
+            "agent=\(state.agentPhase.displayText) \(state.agentMessage)",
             "participants=\(state.participantCount) \(state.participantCount > 1 ? "(Agent 已入房)" : "(等待 Agent 入房...)")",
             "session=\(state.sessionId ?? "-")",
             "mode=\(vadMode.displayText)",
@@ -689,6 +692,32 @@ private extension ConnectionStatus {
 
 private extension AgentPhase {
     var logLabel: String { rawValue.uppercased() }
+
+    var displayText: String {
+        switch self {
+        case .waiting:
+            return "等待中"
+        case .opening:
+            return "开场中"
+        case .listening:
+            return "聆听中"
+        case .processing:
+            return "处理中"
+        case .closing:
+            return "收尾中"
+        case .error:
+            return "错误"
+        }
+    }
+
+    var isInterruptible: Bool {
+        switch self {
+        case .opening, .processing, .closing:
+            return true
+        case .waiting, .listening, .error:
+            return false
+        }
+    }
 }
 
 private extension VadMode {

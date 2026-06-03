@@ -1,4 +1,0 @@
-framework module NewTypeSDK {
-  header "NewTypeSDK-Swift.h"
-  requires objc
-}
